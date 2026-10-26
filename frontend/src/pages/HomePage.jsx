@@ -1,141 +1,68 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Badge, Btn, Card, VegDot, Reveal, waLink } from "../components/ui";
 
-/* ─────────────── data ─────────────── */
+/* ─────────────── static data (text lives in i18n.js) ─────────────── */
 const DISHES = [
   {
-    tag: "Frequently Served",
+    key: "regular",
     tagClass: "bg-secondary text-white",
     img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80",
-    title: "Regular Vegetarian Thali",
-    desc: "3 Handcrafted Phulkas, Dal Tadka, Seasonal Daily Sabzi, Steamed Rice, Fresh Kachumber Salad & Lemon.",
-    badge: "Balanced Everyday Nutrition",
     badgeClass: "bg-secondary-container/20 text-secondary",
   },
   {
-    tag: "Weekend Special",
+    key: "sunday",
     tagClass: "bg-primary-container text-white",
     img: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600&q=80",
-    title: "Special Sunday Thali",
-    desc: "Rich Shahi Paneer, Hot Poori or Methi Paratha, Dal Makhani, Peas Pulao, and warm Gulab Jamun.",
-    badge: "Festive Weekend Treat",
     badgeClass: "bg-primary/8 text-primary",
   },
   {
-    tag: "Daily Favorite",
+    key: "dalrice",
     tagClass: "bg-secondary text-white",
     img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80",
-    title: "Dal-Rice Comfort Meal",
-    desc: "Homestyle Yellow Arhar Dal tempered with pure cow ghee & hing, Jeera Rice, roasted papad & pickle.",
-    badge: "Light & Soothing",
     badgeClass: "bg-secondary-container/20 text-secondary",
   },
   {
-    tag: "Breakfast & Tiffin",
+    key: "paratha",
     tagClass: "bg-on-surface-variant text-white",
     img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&q=80",
-    title: "Stuffed Paratha Box",
-    desc: "2 Aloo / Gobhi / Paneer Parathas with creamy set curd, fresh butter and spicy lime pickle.",
-    badge: "Morning & Lunch",
     badgeClass: "bg-surface-container-highest text-on-surface-variant",
   },
   {
-    tag: "Availability Varies",
+    key: "sabzi",
     tagClass: "bg-on-surface-variant text-white",
     img: "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&q=80",
-    title: "Homestyle Seasonal Sabzi",
-    desc: "Daily rotations: Bhindi Masala, Aloo Gobhi Adraki, Methi Matar Malai, or Lauki Chana Dal.",
-    badge: "100% Market-Fresh Daily",
     badgeClass: "bg-secondary-container/20 text-secondary",
   },
 ];
 
 const PILLARS = [
-  {
-    icon: "🥗",
-    bg: "bg-secondary-container/15",
-    title: "Low-Oil Healthy Cooking",
-    desc: "No heavy food colors, no artificial tasting powders, strictly measured healthy oils.",
-  },
-  {
-    icon: "📅",
-    bg: "bg-primary-fixed",
-    title: "Flexible Meal Plans",
-    desc: "Daily trials, 15-day passes, or full monthly subscriptions. Pause anytime via WhatsApp.",
-  },
-  {
-    icon: "🛵",
-    bg: "bg-secondary-container/15",
-    title: "Reliable Local Delivery",
-    desc: "Prompt delivery slots for lunchtime and dinner. Thermal insulation keeps meals warm.",
-  },
-  {
-    icon: "💸",
-    bg: "bg-primary-fixed",
-    title: "Fair Transparent Pricing",
-    desc: "Clear monthly estimates based on your route distance. Zero hidden platform charges.",
-  },
-  {
-    icon: "🎉",
-    bg: "bg-secondary-container/15",
-    title: "Catering for Special Days",
-    desc: "House gatherings, poojas, and birthday parties with heartfelt traditional meals.",
-  },
-  {
-    icon: "💬",
-    bg: "bg-primary-fixed",
-    title: "Direct Cook Communication",
-    desc: "No chatbots — WhatsApp our kitchen directly for spice requests or timing updates.",
-  },
+  { key: "p1", icon: "🥗", bg: "bg-secondary-container/15" },
+  { key: "p2", icon: "📅", bg: "bg-primary-fixed" },
+  { key: "p3", icon: "🛵", bg: "bg-secondary-container/15" },
+  { key: "p4", icon: "💸", bg: "bg-primary-fixed" },
+  { key: "p5", icon: "🎉", bg: "bg-secondary-container/15" },
+  { key: "p6", icon: "💬", bg: "bg-primary-fixed" },
 ];
 
 const STEPS = [
-  {
-    n: "1",
-    bg: "bg-primary-fixed/60",
-    title: "Tell Us Your Details",
-    body: "Share your address, which meals you need (Lunch, Dinner, or both), dietary restrictions, and preferred starting date.",
-    note: "📍 Check Delivery Coverage",
-  },
-  {
-    n: "2",
-    bg: "bg-secondary-fixed/60",
-    title: "We Discuss Menu & Pricing",
-    body: "We confirm delivery logistics, share weekly menus, and provide a fair rate quote tailored to your distance.",
-    note: "🧾 Honest, Transparent Estimates",
-  },
-  {
-    n: "3",
-    bg: "bg-primary-fixed",
-    title: "Confirm & Enjoy Warm Meals",
-    body: "Start right away! Pause deliveries anytime before 9 AM if traveling without losing meal credits.",
-    note: "✅ Pause / Skip Meals Anytime",
-  },
+  { key: "s1", n: "1", bg: "bg-primary-fixed/60" },
+  { key: "s2", n: "2", bg: "bg-secondary-fixed/60" },
+  { key: "s3", n: "3", bg: "bg-primary-fixed" },
 ];
 
 // Placeholder reviews — replace with real customer reviews
 const REVIEWS = [
-  {
-    initial: "R",
-    color: "text-primary",
-    text: '"Being away from home for my tech job, I missed simple dal-roti. Swami Om\'s tiffin has been a lifesaver for 6 months. Truly light on the stomach, never greasy!"',
-    name: "Rahul Sharma",
-    sub: "Daily Dinner Subscriber · 2 weeks ago",
-  },
-  {
-    initial: "P",
-    color: "text-secondary",
-    text: '"Ordered catering for 35 relatives for our Griha Pravesh pooja. Everyone praised the satvik paneer, pooris, and gulab jamun. Honest homestyle taste!"',
-    name: "Pooja Kulkarni",
-    sub: "Event Catering · 1 month ago",
-  },
-  {
-    initial: "A",
-    color: "text-primary",
-    text: '"The ability to pause and skip days via WhatsApp is so convenient. Highly recommended for students and office folks who want home-cooked meals."',
-    name: "Amit Saxena",
-    sub: "Monthly Tiffin Member · 3 weeks ago",
-  },
+  { key: "r1", color: "text-primary" },
+  { key: "r2", color: "text-secondary" },
+  { key: "r3", color: "text-primary" },
+];
+
+const TRUST = [
+  ["🥘", "everyday"],
+  ["🌿", "fresh"],
+  ["🎉", "catering"],
+  ["💰", "rates"],
 ];
 
 const H2 =
@@ -143,6 +70,8 @@ const H2 =
 
 /* ─────────────── page ─────────────── */
 export default function HomePage() {
+  const { t } = useTranslation();
+
   return (
     // flex-1 keeps the footer at the bottom (your #root is a flex column)
     <main className="flex-1 bg-surface">
@@ -156,47 +85,37 @@ export default function HomePage() {
           {/* Left copy */}
           <div>
             <Badge className="bg-surface-container-highest text-secondary">
-              🍲 Traditional Kitchen Warmth
+              {t("home.hero.badge")}
             </Badge>
             <h1 className="mb-4 mt-4 font-heading text-[clamp(32px,5vw,52px)] font-bold leading-[1.1] tracking-[-0.02em] text-on-surface">
-              Homemade Meals,
+              {t("home.hero.title1")}
               <br />
               <span className="italic text-primary-container">
-                Made with Care.
+                {t("home.hero.title2")}
               </span>
             </h1>
             <p className="mb-7 max-w-[480px] text-[15px] leading-[1.7] text-on-surface-variant">
-              Authentic Maharashtrian home cooking delivered to your doorstep.
-              Pure vegetarian meals made fresh daily — आईच्या हातचं जेवण.
+              {t("home.hero.desc")}
             </p>
 
             <div className="mb-8 flex flex-wrap gap-3">
-              <Btn
-                href={waLink(
-                  "Hi Swami Om, I want to enquire about your tiffin service.",
-                )}
-              >
-                💬 WhatsApp Enquiry
+              <Btn href={waLink(t("wa.enquiry"))}>
+                {t("home.hero.btnWhatsapp")}
               </Btn>
               <Btn to="/about" variant="outline">
-                🙏 About Us
+                {t("home.hero.btnAbout")}
               </Btn>
             </div>
 
             {/* Trust badges */}
             <div className="grid max-w-[420px] grid-cols-2 gap-2">
-              {[
-                ["🥘", "Everyday Tiffin"],
-                ["🌿", "Fresh & Homestyle"],
-                ["🎉", "Special Catering"],
-                ["💰", "Transparent Rates"],
-              ].map(([icon, label]) => (
+              {TRUST.map(([icon, k]) => (
                 <div
-                  key={label}
+                  key={k}
                   className="flex items-center gap-2 rounded-md border border-outline-variant bg-white/90 px-3 py-2 text-xs font-semibold text-on-surface shadow-card"
                 >
                   <span className="text-base">{icon}</span>
-                  {label}
+                  {t(`home.hero.trust.${k}`)}
                 </div>
               ))}
             </div>
@@ -208,18 +127,18 @@ export default function HomePage() {
             <div className="relative overflow-hidden rounded-xl shadow-[0_20px_50px_rgba(43,29,20,0.15)]">
               <img
                 src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=700&q=80"
-                alt="Traditional Indian thali"
+                alt={t("home.hero.imgAlt")}
                 className="h-[400px] w-full object-cover object-center"
               />
               <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-md bg-white/95 px-3.5 py-2.5 shadow-card backdrop-blur-sm">
                 <div className="flex items-center gap-2">
                   <span className="size-2.5 rounded-full bg-tertiary" />
                   <span className="text-[13px] font-semibold">
-                    Freshly Prepared Daily
+                    {t("home.hero.freshDaily")}
                   </span>
                 </div>
                 <span className="rounded-full bg-secondary-container/20 px-2.5 py-[3px] text-[11px] font-bold text-secondary">
-                  100% Homestyle
+                  {t("home.hero.homestyle")}
                 </span>
               </div>
             </div>
@@ -230,10 +149,8 @@ export default function HomePage() {
       {/* ────────────── SERVICES ────────────── */}
       <section className="bg-surface px-8 py-16">
         <Reveal className="mx-auto max-w-[1200px]">
-          <Badge>Tailored Kitchen Services</Badge>
-          <h2 className={`${H2} mb-8 mt-2`}>
-            Wholesome Meals For Every Daily Routine
-          </h2>
+          <Badge>{t("home.services.badge")}</Badge>
+          <h2 className={`${H2} mb-8 mt-2`}>{t("home.services.title")}</h2>
 
           <div className="grid items-stretch gap-6 lg:grid-cols-[5fr_3fr]">
             {/* Primary service */}
@@ -241,44 +158,37 @@ export default function HomePage() {
               <div className="relative h-[280px] overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&q=80"
-                  alt="Daily tiffin"
+                  alt={t("home.services.primaryImgAlt")}
                   className="size-full object-cover transition duration-500 group-hover:scale-105"
                 />
                 <div className="absolute left-3 top-3 rounded-full bg-primary-container px-3 py-1 text-[11px] font-bold text-white">
-                  ⭐ Primary Offering
+                  {t("home.services.primaryTag")}
                 </div>
               </div>
               <div className="p-6">
                 <div className="mb-2 flex items-center justify-between gap-3">
                   <h3 className="font-heading text-[22px] font-bold text-on-surface">
-                    Daily Tiffin Service
+                    {t("home.services.primaryTitle")}
                   </h3>
                   <span className="shrink-0 rounded-md bg-secondary-container/20 px-2.5 py-1 text-[11px] font-semibold text-secondary">
-                    Lunch & Dinner
+                    {t("home.services.primaryMeals")}
                   </span>
                 </div>
                 <p className="mb-4 text-[13.5px] leading-[1.7] text-on-surface-variant">
-                  Regular wholesome meals for students, IT professionals,
-                  bachelors, and elderly families. Warm handmade phulkas,
-                  home-churned dal, light seasonal sabzi, and fragrant rice.
-                  Transparent monthly & daily plans without long lock-ins.
+                  {t("home.services.primaryDesc")}
                 </p>
                 <div className="mb-5 flex flex-wrap gap-2">
-                  {[
-                    "Low-oil preparation",
-                    "Custom spice levels",
-                    "Pause / Resume flexibly",
-                  ].map((f) => (
+                  {["f1", "f2", "f3"].map((f) => (
                     <span
                       key={f}
                       className="flex items-center gap-1.5 rounded-full bg-surface-container-highest px-3 py-[5px] text-xs text-on-surface-variant"
                     >
                       <span className="text-tertiary">✓</span>
-                      {f}
+                      {t(`home.services.${f}`)}
                     </span>
                   ))}
                 </div>
-                <Btn to="/enquiry">Enquire for Tiffin →</Btn>
+                <Btn to="/enquiry">{t("home.services.primaryCta")}</Btn>
               </div>
             </Card>
 
@@ -287,44 +197,42 @@ export default function HomePage() {
               <div className="relative h-[220px] overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80"
-                  alt="Catering"
+                  alt={t("home.services.cateringImgAlt")}
                   className="size-full object-cover transition duration-500 group-hover:scale-105"
                 />
                 <div className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold text-on-surface">
-                  Advance Booking
+                  {t("home.services.cateringTag")}
                 </div>
               </div>
               <div className="p-5">
                 <div className="mb-2 flex items-center justify-between gap-3">
                   <h3 className="font-heading text-xl font-bold text-on-surface">
-                    Catering Services
+                    {t("home.services.cateringTitle")}
                   </h3>
                   <span className="text-[11px] text-on-surface-variant">
-                    15 to 150 Pax
+                    {t("home.services.cateringPax")}
                   </span>
                 </div>
                 <p className="mb-4 text-[13px] leading-[1.7] text-on-surface-variant">
-                  Food for housewarmings, birthday celebrations, poojas, and
-                  weekend gatherings. Warm, authentic party spreads with genuine
-                  mother's hand touch.
+                  {t("home.services.cateringDesc")}
                 </p>
                 <ul className="mb-5 flex list-none flex-col gap-1.5 p-0">
                   {[
-                    ["🍽", "Bespoke Indian menus (North & South)"],
-                    ["✅", "Fresh cold-pressed oils & hand-ground masalas"],
-                    ["⏰", "Minimum 48 hours advance notice required"],
-                  ].map(([icon, txt]) => (
+                    ["🍽", "c1"],
+                    ["✅", "c2"],
+                    ["⏰", "c3"],
+                  ].map(([icon, k]) => (
                     <li
-                      key={txt}
+                      key={k}
                       className="flex gap-2 text-[12.5px] text-on-surface-variant"
                     >
                       <span>{icon}</span>
-                      <span>{txt}</span>
+                      <span>{t(`home.services.${k}`)}</span>
                     </li>
                   ))}
                 </ul>
                 <Btn to="/enquiry" variant="outline">
-                  Plan Your Catering →
+                  {t("home.services.cateringCta")}
                 </Btn>
               </div>
             </Card>
@@ -337,17 +245,11 @@ export default function HomePage() {
         <Reveal className="mx-auto max-w-[1200px]">
           <div className="mb-4 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <Badge>Authentic Indian Flavors</Badge>
-              <h2 className={`${H2} mt-2`}>
-                Frequently Served Homestyle Dishes
-              </h2>
+              <Badge>{t("home.dishes.badge")}</Badge>
+              <h2 className={`${H2} mt-2`}>{t("home.dishes.title")}</h2>
             </div>
-            <Btn
-              href={waLink("Hi Swami Om, what is today's menu?")}
-              variant="green"
-              size="sm"
-            >
-              💬 Ask Today's Menu via WhatsApp
+            <Btn href={waLink(t("wa.menu"))} variant="green" size="sm">
+              {t("home.dishes.askMenu")}
             </Btn>
           </div>
 
@@ -358,62 +260,63 @@ export default function HomePage() {
             </div>
             <div>
               <div className="mb-1 font-heading text-sm font-semibold text-on-surface">
-                Seasonal Daily Rotation
+                {t("home.dishes.noticeTitle")}
               </div>
               <div className="text-[12.5px] leading-[1.6] text-on-surface-variant">
-                Our kitchen runs strictly on seasonal bazaar sourcing without
-                frozen preservatives. Contact us every morning by 10:00 AM to
-                see today's curated lunch sabzis!
+                {t("home.dishes.noticeBody")}
               </div>
             </div>
           </div>
 
           {/* Dish grid */}
           <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5">
-            {DISHES.map((dish) => (
-              <Card
-                key={dish.title}
-                className="group flex flex-col justify-between"
-              >
-                <div className="relative h-[180px] overflow-hidden">
-                  <img
-                    src={dish.img}
-                    alt={dish.title}
-                    loading="lazy"
-                    className="size-full object-cover transition duration-500 group-hover:scale-[1.08]"
-                  />
-                  <div
-                    className={`absolute left-2.5 top-2.5 rounded-md px-2.5 py-[3px] text-[10px] font-bold ${dish.tagClass}`}
-                  >
-                    {dish.tag}
+            {DISHES.map((dish) => {
+              const title = t(`home.dishes.${dish.key}.title`);
+              return (
+                <Card
+                  key={dish.key}
+                  className="group flex flex-col justify-between"
+                >
+                  <div className="relative h-[180px] overflow-hidden">
+                    <img
+                      src={dish.img}
+                      alt={title}
+                      loading="lazy"
+                      className="size-full object-cover transition duration-500 group-hover:scale-[1.08]"
+                    />
+                    <div
+                      className={`absolute left-2.5 top-2.5 rounded-md px-2.5 py-[3px] text-[10px] font-bold ${dish.tagClass}`}
+                    >
+                      {t(`home.dishes.${dish.key}.tag`)}
+                    </div>
                   </div>
-                </div>
-                <div className="p-4">
-                  <div className="mb-1.5 flex items-center justify-between gap-2">
-                    <h3 className="font-heading text-[15px] font-semibold text-on-surface">
-                      {dish.title}
-                    </h3>
-                    <VegDot />
+                  <div className="p-4">
+                    <div className="mb-1.5 flex items-center justify-between gap-2">
+                      <h3 className="font-heading text-[15px] font-semibold text-on-surface">
+                        {title}
+                      </h3>
+                      <VegDot />
+                    </div>
+                    <p className="mb-2.5 text-[12.5px] leading-[1.6] text-on-surface-variant">
+                      {t(`home.dishes.${dish.key}.desc`)}
+                    </p>
+                    <span
+                      className={`rounded-md px-2.5 py-[3px] text-[11px] font-semibold ${dish.badgeClass}`}
+                    >
+                      {t(`home.dishes.${dish.key}.badge`)}
+                    </span>
                   </div>
-                  <p className="mb-2.5 text-[12.5px] leading-[1.6] text-on-surface-variant">
-                    {dish.desc}
-                  </p>
-                  <span
-                    className={`rounded-md px-2.5 py-[3px] text-[11px] font-semibold ${dish.badgeClass}`}
-                  >
-                    {dish.badge}
-                  </span>
-                </div>
-                <div className="px-4 pb-4">
-                  <Link
-                    to="/enquiry"
-                    className="block rounded-full border-[1.5px] border-outline-variant py-[9px] text-center text-[12.5px] font-semibold text-primary no-underline transition hover:border-primary-container hover:bg-primary-container hover:text-white"
-                  >
-                    Request in Plan
-                  </Link>
-                </div>
-              </Card>
-            ))}
+                  <div className="px-4 pb-4">
+                    <Link
+                      to="/enquiry"
+                      className="block rounded-full border-[1.5px] border-outline-variant py-[9px] text-center text-[12.5px] font-semibold text-primary no-underline transition hover:border-primary-container hover:bg-primary-container hover:text-white"
+                    >
+                      {t("home.dishes.request")}
+                    </Link>
+                  </div>
+                </Card>
+              );
+            })}
 
             {/* Custom tiffin card */}
             <div className="flex flex-col justify-between rounded-lg border border-outline-variant bg-linear-to-br from-primary-fixed to-surface-container-highest p-6">
@@ -422,21 +325,15 @@ export default function HomePage() {
                   🥣
                 </div>
                 <h3 className="mb-2 font-heading text-base font-bold text-on-surface">
-                  Dietary Needs or Custom Tiffin?
+                  {t("home.dishes.customTitle")}
                 </h3>
                 <p className="text-[12.5px] leading-[1.6] text-on-surface-variant">
-                  Require Jain meals, diabetic-friendly low-carb rotis, or extra
-                  protein bowls? Just tell us your diet preferences.
+                  {t("home.dishes.customDesc")}
                 </p>
               </div>
               <div className="mt-5">
-                <Btn
-                  href={waLink(
-                    "Hi Swami Om, I have a dietary requirement for my tiffin.",
-                  )}
-                  size="xs"
-                >
-                  Tell Us Your Preference →
+                <Btn href={waLink(t("wa.diet"))} size="xs">
+                  {t("home.dishes.customCta")}
                 </Btn>
               </div>
             </div>
@@ -448,32 +345,29 @@ export default function HomePage() {
       <section className="bg-surface px-8 py-16">
         <Reveal className="mx-auto max-w-[1200px]">
           <div className="mx-auto mb-10 max-w-[560px] text-center">
-            <Badge>Zero Hassle Experience</Badge>
-            <h2 className={`${H2} mb-2 mt-2`}>
-              Simple Steps to Fresh Home Food
-            </h2>
+            <Badge>{t("home.how.badge")}</Badge>
+            <h2 className={`${H2} mb-2 mt-2`}>{t("home.how.title")}</h2>
             <p className="text-sm text-on-surface-variant">
-              No complicated app subscriptions or lock-ins. Direct, personal
-              kitchen coordination.
+              {t("home.how.desc")}
             </p>
           </div>
 
           <div className="mb-8 grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5">
             {STEPS.map((step) => (
-              <Card key={step.n} className="p-6">
+              <Card key={step.key} className="p-6">
                 <div
                   className={`mb-4 flex size-12 items-center justify-center rounded-full font-heading text-xl font-bold text-primary ${step.bg}`}
                 >
                   {step.n}
                 </div>
                 <h3 className="mb-2 font-heading text-base font-semibold text-on-surface">
-                  {step.title}
+                  {t(`home.how.${step.key}.title`)}
                 </h3>
                 <p className="mb-4 text-[13px] leading-[1.7] text-on-surface-variant">
-                  {step.body}
+                  {t(`home.how.${step.key}.body`)}
                 </p>
                 <span className="text-xs font-semibold text-secondary">
-                  {step.note}
+                  {t(`home.how.${step.key}.note`)}
                 </span>
               </Card>
             ))}
@@ -485,14 +379,14 @@ export default function HomePage() {
               <span className="text-4xl">⏰</span>
               <div>
                 <div className="font-heading text-base font-semibold text-on-surface">
-                  Ready to start today or tomorrow?
+                  {t("home.how.ctaTitle")}
                 </div>
                 <div className="text-[12.5px] text-on-surface-variant">
-                  Next-day meal activations cut off at 8:00 PM every evening.
+                  {t("home.how.ctaDesc")}
                 </div>
               </div>
             </div>
-            <Btn to="/enquiry">Submit Quick Enquiry →</Btn>
+            <Btn to="/enquiry">{t("home.how.ctaBtn")}</Btn>
           </div>
         </Reveal>
       </section>
@@ -500,23 +394,21 @@ export default function HomePage() {
       {/* ────────────── WHY CHOOSE US ────────────── */}
       <section className="bg-surface-container-low px-8 py-16">
         <Reveal className="mx-auto max-w-[1200px]">
-          <Badge>Our Food Philosophy</Badge>
-          <h2 className={`${H2} mb-8 mt-2`}>
-            Why Neighborhoods Trust Swami Om
-          </h2>
+          <Badge>{t("home.why.badge")}</Badge>
+          <h2 className={`${H2} mb-8 mt-2`}>{t("home.why.title")}</h2>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-5">
             {PILLARS.map((p) => (
-              <Card key={p.title} className="p-6">
+              <Card key={p.key} className="p-6">
                 <div
                   className={`mb-3.5 flex size-[42px] items-center justify-center rounded-full text-xl ${p.bg}`}
                 >
                   {p.icon}
                 </div>
                 <h3 className="mb-1.5 font-heading text-[15px] font-semibold text-on-surface">
-                  {p.title}
+                  {t(`home.why.${p.key}.title`)}
                 </h3>
                 <p className="text-[12.5px] leading-[1.7] text-on-surface-variant">
-                  {p.desc}
+                  {t(`home.why.${p.key}.desc`)}
                 </p>
               </Card>
             ))}
@@ -534,53 +426,53 @@ export default function HomePage() {
                   ★★★★★
                 </span>
                 <span className="font-heading text-[15px] font-bold text-on-surface">
-                  4.9 / 5.0
+                  {t("home.reviews.rating")}
                 </span>
                 <span className="text-[12.5px] text-on-surface-variant">
-                  (180+ Local Regulars)
+                  {t("home.reviews.regulars")}
                 </span>
               </div>
-              <h2 className={H2}>Loved By Daily Diners</h2>
+              <h2 className={H2}>{t("home.reviews.title")}</h2>
             </div>
             <div className="flex gap-2.5">
               <Link
                 to="/about"
                 className="rounded-full bg-surface-container-highest px-[18px] py-2 text-[13px] font-semibold text-on-surface no-underline transition hover:bg-surface-container-high"
               >
-                Learn About Us
+                {t("home.reviews.learn")}
               </Link>
-              <Btn href={waLink()} variant="green" size="sm">
-                💬 WhatsApp Us
+              <Btn href={waLink(t("wa.general"))} variant="green" size="sm">
+                {t("home.reviews.whatsapp")}
               </Btn>
             </div>
           </div>
 
           <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
             {REVIEWS.map((r) => (
-              <Card key={r.name} className="flex flex-col justify-between p-6">
+              <Card key={r.key} className="flex flex-col justify-between p-6">
                 <div>
                   <span
                     className="text-base text-amber-500"
-                    aria-label="5 out of 5 stars"
+                    aria-label={t("home.reviews.stars")}
                   >
                     ★★★★★
                   </span>
                   <p className="mb-5 mt-3 text-[13.5px] italic leading-[1.75] text-on-surface">
-                    {r.text}
+                    {t(`home.reviews.${r.key}.text`)}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 border-t border-surface-container-highest pt-3.5">
                   <div
                     className={`flex size-10 shrink-0 items-center justify-center rounded-full bg-surface-container-highest font-heading text-base font-bold ${r.color}`}
                   >
-                    {r.initial}
+                    {t(`home.reviews.${r.key}.initial`)}
                   </div>
                   <div>
                     <div className="text-[13px] font-bold text-on-surface">
-                      {r.name}
+                      {t(`home.reviews.${r.key}.name`)}
                     </div>
                     <div className="text-[11.5px] text-on-surface-variant">
-                      {r.sub}
+                      {t(`home.reviews.${r.key}.sub`)}
                     </div>
                   </div>
                 </div>
@@ -595,23 +487,21 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-[1200px] items-center gap-8 md:grid-cols-[1fr_auto]">
           <div>
             <Badge className="bg-primary-fixed/25 text-primary-fixed">
-              Personal Kitchen Care
+              {t("home.cta.badge")}
             </Badge>
             <h2 className="my-3 font-heading text-[clamp(22px,3.5vw,32px)] font-bold tracking-[-0.01em] text-white">
-              Craving Genuine Ghar Ka Khana Today?
+              {t("home.cta.title")}
             </h2>
             <p className="max-w-[560px] text-[14.5px] leading-[1.7] text-primary-fixed">
-              Tell us your preferred address and whether you need lunch, dinner,
-              or custom party boxes. We'll verify delivery availability and send
-              fresh menu options right away.
+              {t("home.cta.desc")}
             </p>
           </div>
           <div className="flex min-w-[220px] flex-col gap-3">
             <Btn to="/about" variant="white" size="block">
-              🙏 Know Our Story
+              {t("home.cta.story")}
             </Btn>
-            <Btn href={waLink()} variant="green" size="block">
-              💬 WhatsApp Kitchen Directly
+            <Btn href={waLink(t("wa.general"))} variant="green" size="block">
+              {t("home.cta.whatsapp")}
             </Btn>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
 // ── Kitchen coordinates (central Pune) ──
-export const KITCHEN_LAT = 18.5074;
-export const KITCHEN_LNG = 73.8077; // ~Kothrud area
+export const KITCHEN_LAT = 18.512734;
+export const KITCHEN_LNG = 73.68412; // ~Kothrud area
 
 // ── Haversine distance in km ──
 export function haversineKm(lat1, lng1, lat2, lng2) {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Search,
   LocateFixed,
@@ -15,86 +16,32 @@ import {
 } from "lucide-react";
 import PuneMap from "../components/PuneMap";
 import { useLocationStore, calcPrice } from "../store/locationStore";
+import { LOCALITIES } from "../data/localities";
 
-// ── Change these ──
+// ── Change this ──
 const WHATSAPP_NUMBER = "919763355563";
-const KITCHEN_NAME = "Swami Om";
 
-// ── Quick-pick localities (approximate centre points) ──
-const LOCALITIES = [
-  { name: "Kothrud", lat: 18.5074, lng: 73.8077 },
-  { name: "Baner", lat: 18.559, lng: 73.7868 },
-  { name: "Aundh", lat: 18.558, lng: 73.8075 },
-  { name: "Viman Nagar", lat: 18.5679, lng: 73.9143 },
-  { name: "Hinjawadi Phase 1", lat: 18.5912, lng: 73.7389 },
-  { name: "Kalyani Nagar", lat: 18.5463, lng: 73.9033 },
-  { name: "Hadapsar", lat: 18.5089, lng: 73.926 },
-];
+// Option values only — the visible labels come from i18n.js
+const PEOPLE_VALUES = [1, 2, 3, 4];
+const FREQ_VALUES = ["lunch", "dinner", "both"];
+const DURATION_VALUES = ["trial", "15days", "monthly"];
 
-const PEOPLE_OPTIONS = [
-  { value: 1, label: "1 Person" },
-  { value: 2, label: "2 People" },
-  { value: 3, label: "3 People" },
-  { value: 4, label: "4+ Family" },
-];
-const FREQ_OPTIONS = [
-  { value: "lunch", label: "Lunch Only" },
-  { value: "dinner", label: "Dinner Only" },
-  { value: "both", label: "Both (2 Meals)" },
-];
-const DURATION_OPTIONS = [
-  { value: "trial", label: "Daily Trial" },
-  { value: "15days", label: "15 Days" },
-  { value: "monthly", label: "30 Days (Best)" },
-];
-const PERIOD_LABEL = {
-  trial: "/ day",
-  "15days": "/ 15 days",
-  monthly: "/ month",
-};
-
-const ZONE_INFO = {
-  inner: {
-    badge: "Service Available — Priority Route",
-    badgeClass: "bg-tertiary-fixed text-tertiary",
-    note: "Your address falls in our primary kitchen corridor. Hot home-style lunch and dinner can be dispatched reliably to your doorstep.",
-    delivery:
-      "Free delivery on 15 & 30-day plans! Since your locality is within 5 km of our central kitchen, daily transport fees are waived completely.",
-  },
-  mid: {
-    badge: "Service Available — Standard Route",
-    badgeClass: "bg-primary-fixed text-primary",
-    note: "Your address is within our standard delivery range. Tiffins are dispatched in scheduled batches along your route.",
-    delivery:
-      "A small delivery charge applies for your distance. It is lower on the monthly plan.",
-  },
-  outer: {
-    badge: "On Request — Custom Delivery",
-    badgeClass: "bg-surface-variant text-on-surface-variant",
-    note: "This location is outside our daily delivery zone. We can still serve you on request, so message us to confirm.",
-    delivery: "Delivery for locations beyond 12 km is quoted individually.",
-  },
+// Badge colours per zone — the text comes from i18n.js
+const ZONE_BADGE = {
+  inner: "bg-tertiary-fixed text-tertiary",
+  mid: "bg-primary-fixed text-primary",
+  outer: "bg-surface-variant text-on-surface-variant",
 };
 
 const STEPS = [
-  {
-    icon: ChefHat,
-    time: "10:30 AM",
-    title: "Daily Fresh Cooking",
-    text: "Vegetables chopped at dawn, hand-roasted spice blends, and warm rotis prepared in small rounds per route zone.",
-  },
-  {
-    icon: Package,
-    time: "11:45 AM",
-    title: "Insulated Stainless Packing",
-    text: "Packed boiling hot into sanitized 3-4 tier stainless dabbas or microwave-safe eco trays with heat-retention wraps.",
-  },
-  {
-    icon: Bike,
-    time: "12:30 PM",
-    title: "Punctual Handover",
-    text: "Dedicated neighbourhood delivery riders drop off directly to your apartment security, reception, or flat door.",
-  },
+  { key: "cook", icon: ChefHat },
+  { key: "pack", icon: Package },
+  { key: "deliver", icon: Bike },
+];
+
+const PHOTOS = [
+  { key: "photo1", src: "/images/steel-dabbas.jpg" },
+  { key: "photo2", src: "/images/fresh-rotis.jpg" },
 ];
 
 // ── Repeated class strings (all values come from your @theme tokens) ──
@@ -106,16 +53,16 @@ const softBtn = `inline-flex min-h-12 items-center justify-center gap-2 rounded-
 
 // ── Option group (people / meals / duration) ──
 // `cols` must be a full class string so Tailwind can see it at build time
-function OptionGroup({ title, options, value, onChange, cols }) {
+function OptionGroup({ id, title, options, value, onChange, cols }) {
   return (
     <div className="mb-4">
-      <div className={label} id={`lbl-${title}`}>
+      <div className={label} id={`lbl-${id}`}>
         {title}
       </div>
       <div
         className={`mt-2 grid gap-2 ${cols}`}
         role="radiogroup"
-        aria-labelledby={`lbl-${title}`}
+        aria-labelledby={`lbl-${id}`}
       >
         {options.map((o) => {
           const active = value === o.value;
@@ -142,6 +89,8 @@ function OptionGroup({ title, options, value, onChange, cols }) {
 }
 
 export default function LocationPage() {
+  const { t, i18n } = useTranslation();
+
   const pin = useLocationStore((s) => s.pin);
   const people = useLocationStore((s) => s.people);
   const freq = useLocationStore((s) => s.freq);
@@ -151,20 +100,40 @@ export default function LocationPage() {
   const setFreq = useLocationStore((s) => s.setFreq);
   const setDuration = useLocationStore((s) => s.setDuration);
 
-  const [query, setQuery] = useState(pin.label);
+  // Locality names: Marathi if we have it, otherwise the English name
+  const locName = (n) => t(`localities.${n}`, { defaultValue: n });
+  const brand = t("brand");
+
+  const [query, setQuery] = useState(locName(pin.label));
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [gpsError, setGpsError] = useState("");
 
   // Keep the input in sync when the pin moves (map click, drag, chip)
+  // or when the language changes
   useEffect(() => {
-    setQuery(pin.label);
-  }, [pin.label]);
+    setQuery(locName(pin.label));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pin.label, i18n.language]);
+
+  // Translated option lists (built each render so they follow the language)
+  const peopleOptions = PEOPLE_VALUES.map((v) => ({
+    value: v,
+    label: t(`location.people.${v}`),
+  }));
+  const freqOptions = FREQ_VALUES.map((v) => ({
+    value: v,
+    label: t(`location.freq.${v}`),
+  }));
+  const durationOptions = DURATION_VALUES.map((v) => ({
+    value: v,
+    label: t(`location.duration.${v}`),
+  }));
 
   // Subscribing to the pieces and calling calcPrice here makes the price
   // re-render on every change (store.getPrice() would not).
   const price = calcPrice({ zone: pin.zone, people, freq, duration });
-  const zone = ZONE_INFO[pin.zone];
+  const zoneKey = pin.zone;
   const activeChip = LOCALITIES.find((l) => l.name === pin.label)?.name;
 
   // Type a locality and press Enter → look it up (Nominatim, limited to Pune)
@@ -181,14 +150,9 @@ export default function LocationPage() {
         encodeURIComponent(q + ", Pune");
       const data = await (await fetch(url)).json();
       if (data[0]) setPin(parseFloat(data[0].lat), parseFloat(data[0].lon));
-      else
-        setSearchError(
-          "Locality not found in Pune. Try a nearby landmark or drop a pin on the map.",
-        );
+      else setSearchError(t("location.errNotFound"));
     } catch {
-      setSearchError(
-        "Search failed. Check your connection or drop a pin on the map.",
-      );
+      setSearchError(t("location.errSearch"));
     } finally {
       setSearching(false);
     }
@@ -196,26 +160,30 @@ export default function LocationPage() {
 
   const useGps = () => {
     setGpsError("");
-    if (!navigator.geolocation)
-      return setGpsError("GPS is not available on this device.");
+    if (!navigator.geolocation) return setGpsError(t("location.errGpsNA"));
     navigator.geolocation.getCurrentPosition(
       (p) => setPin(p.coords.latitude, p.coords.longitude),
-      () =>
-        setGpsError(
-          "Could not get your location. Allow location access or drop a pin.",
-        ),
+      () => setGpsError(t("location.errGps")),
       { enableHighAccuracy: true, timeout: 10000 },
     );
   };
 
-  const meals = FREQ_OPTIONS.find((f) => f.value === freq)?.label;
-  const plan = DURATION_OPTIONS.find(
-    (d) => d.value === duration,
-  )?.label.replace(" (Best)", "");
   const waLink = (custom) => {
     const text = custom
-      ? `Hello ${KITCHEN_NAME}, I would like a custom quote.\nLocation: ${pin.label} (${pin.dist} km)`
-      : `Hello ${KITCHEN_NAME}, I'd like to subscribe.\nLocation: ${pin.label} (${pin.dist} km)\nPeople: ${people}\nMeals: ${meals}\nPlan: ${plan}\nEstimated price: ₹${price.toLocaleString("en-IN")}`;
+      ? t("location.waCustom", {
+          kitchen: brand,
+          label: locName(pin.label),
+          dist: pin.dist,
+        })
+      : t("location.waSubscribe", {
+          kitchen: brand,
+          label: locName(pin.label),
+          dist: pin.dist,
+          people,
+          meals: t(`location.freq.${freq}`),
+          plan: t(`location.durationShort.${duration}`),
+          price: price.toLocaleString("en-IN"),
+        });
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
@@ -227,21 +195,19 @@ export default function LocationPage() {
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-end justify-between gap-6 px-5">
           <div>
             <h1 className="font-display text-[clamp(1.9rem,4.5vw,3rem)] font-bold leading-[1.1]">
-              Check Tiffin Service in Your Area
+              {t("location.title")}
             </h1>
             <p className="mt-3 max-w-[520px] text-base leading-relaxed text-on-surface-variant">
-              Enter your locality or pin your address to check delivery
-              coverage, delivery slots, and request transparent location-based
-              pricing.
+              {t("location.intro")}
             </p>
           </div>
           <div className="flex items-center gap-3.5 rounded-lg bg-surface-container-lowest px-5 py-3.5 text-primary-container shadow-card">
             <ChefHat size={22} aria-hidden />
             <div className="flex flex-col text-on-surface">
               <small className="text-[0.7rem] text-on-surface-variant">
-                Central kitchen radius
+                {t("location.radiusLabel")}
               </small>
-              <strong>12 km Guaranteed Fresh</strong>
+              <strong>{t("location.radiusValue")}</strong>
             </div>
           </div>
         </div>
@@ -255,7 +221,7 @@ export default function LocationPage() {
           <div className={card}>
             <form onSubmit={searchLocality}>
               <label htmlFor="locality" className={label}>
-                Locality, Apartment, or Landmark
+                {t("location.searchLabel")}
               </label>
               <div className="mt-2 flex flex-col gap-2.5 sm:flex-row">
                 <div className="flex flex-1 items-center gap-2.5 rounded-md border border-transparent bg-surface-container px-3.5 text-on-surface-variant focus-within:border-primary-container">
@@ -264,20 +230,20 @@ export default function LocationPage() {
                     id="locality"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="e.g. Kothrud"
+                    placeholder={t("location.placeholder")}
                     autoComplete="off"
                     className="min-w-0 flex-1 bg-transparent py-3 text-on-surface outline-none"
                   />
                 </div>
                 <button type="button" onClick={useGps} className={softBtn}>
-                  <LocateFixed size={16} aria-hidden /> Use GPS
+                  <LocateFixed size={16} aria-hidden /> {t("location.gps")}
                 </button>
               </div>
             </form>
 
             {searching && (
               <p className="mt-2 text-[0.8rem] text-on-surface-variant">
-                Searching…
+                {t("location.searching")}
               </p>
             )}
             {(searchError || gpsError) && (
@@ -287,9 +253,9 @@ export default function LocationPage() {
             )}
 
             <div className="mt-[18px] flex items-center justify-between">
-              <span className={label}>Popular coverage sectors</span>
+              <span className={label}>{t("location.popular")}</span>
               <span className="text-xs text-tertiary">
-                {LOCALITIES.length} hubs online
+                {t("location.hubs", { count: LOCALITIES.length })}
               </span>
             </div>
             <div className="mt-2.5 flex flex-wrap gap-2">
@@ -304,7 +270,7 @@ export default function LocationPage() {
                       : "bg-surface-container text-on-surface hover:bg-surface-container-high"
                   }`}
                 >
-                  {l.name}
+                  {locName(l.name)}
                 </button>
               ))}
             </div>
@@ -320,41 +286,29 @@ export default function LocationPage() {
                   className="shrink-0 text-tertiary"
                   aria-hidden
                 />
-                Hot-insulated tiffin carriers deployed directly at 11:45 AM
-                &amp; 7:15 PM
+                {t("location.mapInfo")}
               </span>
               <span className="inline-flex items-center gap-2 font-semibold text-primary">
-                <ShieldCheck size={15} aria-hidden /> Tiffin Safety Guarantee
+                <ShieldCheck size={15} aria-hidden /> {t("location.safety")}
               </span>
             </div>
           </div>
 
           {/* Photos */}
           <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-            {[
-              {
-                src: "/images/steel-dabbas.jpg",
-                alt: "Stainless steel tiffin boxes",
-                caption: "Clean Stainless Dabbas",
-              },
-              {
-                src: "/images/fresh-rotis.jpg",
-                alt: "Rotis being cooked on a tawa",
-                caption: "Rotis Made Fresh 30m Prior",
-              },
-            ].map((p) => (
+            {PHOTOS.map((p) => (
               <figure
                 key={p.src}
                 className="relative m-0 aspect-video overflow-hidden rounded-lg bg-surface-container"
               >
                 <img
                   src={p.src}
-                  alt={p.alt}
+                  alt={t(`location.${p.key}.alt`)}
                   loading="lazy"
                   className="h-full w-full object-cover"
                 />
-                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-on-surface/75 to-transparent px-3 pb-2.5 pt-6 text-[0.78rem] font-semibold text-white">
-                  {p.caption}
+                <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-on-surface/75 to-transparent px-3 pb-2.5 pt-6 text-[0.78rem] font-semibold text-white">
+                  {t(`location.${p.key}.caption`)}
                 </figcaption>
               </figure>
             ))}
@@ -366,51 +320,51 @@ export default function LocationPage() {
           <div className={`${card} lg:sticky lg:top-24`}>
             <div className="flex flex-wrap items-center justify-between gap-2.5">
               <span
-                className={`rounded-full px-3 py-1.5 text-[0.72rem] font-semibold ${zone.badgeClass}`}
+                className={`rounded-full px-3 py-1.5 text-[0.72rem] font-semibold ${ZONE_BADGE[zoneKey]}`}
               >
-                {zone.badge}
+                {t(`location.zone.${zoneKey}.badge`)}
               </span>
               <span className="text-xs text-on-surface-variant">
-                {pin.dist} km from kitchen
+                {t("location.kmFrom", { dist: pin.dist })}
               </span>
             </div>
 
             <h2 className="mt-4 font-heading text-[1.45rem] font-bold">
-              {pin.label} Area Delivery
+              {t("location.areaDelivery", { name: locName(pin.label) })}
             </h2>
             <p className="mt-2 text-[0.9rem] leading-relaxed text-on-surface-variant">
-              {zone.note}
+              {t(`location.zone.${zoneKey}.note`)}
             </p>
 
             {/* Slots */}
             <div className="mt-4 grid grid-cols-2 gap-3 rounded-md bg-surface-container p-3.5">
               <div className="flex flex-col gap-0.5">
                 <span className="inline-flex items-center gap-1.5 text-[0.72rem] text-on-surface-variant">
-                  <Sun size={14} aria-hidden /> Lunch Slot
+                  <Sun size={14} aria-hidden /> {t("location.lunchSlot")}
                 </span>
                 <strong className="font-heading text-[1.1rem]">
-                  By 12:30 PM
+                  {t("location.lunchBy")}
                 </strong>
                 <small className="text-[0.72rem] text-on-surface-variant">
-                  Prep at 10:45 AM
+                  {t("location.lunchPrep")}
                 </small>
               </div>
               <div className="flex flex-col gap-0.5">
                 <span className="inline-flex items-center gap-1.5 text-[0.72rem] text-on-surface-variant">
-                  <Moon size={14} aria-hidden /> Dinner Slot
+                  <Moon size={14} aria-hidden /> {t("location.dinnerSlot")}
                 </span>
                 <strong className="font-heading text-[1.1rem]">
-                  By 7:45 PM
+                  {t("location.dinnerBy")}
                 </strong>
                 <small className="text-[0.72rem] text-on-surface-variant">
-                  Prep at 5:30 PM
+                  {t("location.dinnerPrep")}
                 </small>
               </div>
             </div>
 
             <p className="mt-3.5 flex gap-2.5 rounded-md bg-surface-container px-3.5 py-3 text-[0.8rem] leading-normal text-primary">
               <BadgeCheck size={16} className="mt-0.5 shrink-0" aria-hidden />
-              <span>{zone.delivery}</span>
+              <span>{t(`location.zone.${zoneKey}.delivery`)}</span>
             </p>
 
             <hr className="my-5 border-0 border-t border-outline-variant/50" />
@@ -418,30 +372,33 @@ export default function LocationPage() {
             {/* Estimator */}
             <div className="mb-3.5 flex items-baseline justify-between gap-2">
               <h3 className="font-heading text-[0.95rem] font-semibold">
-                Customise Meal Estimator
+                {t("location.estimatorTitle")}
               </h3>
               <small className="text-[0.72rem] text-on-surface-variant">
-                Instant transparent quote
+                {t("location.estimatorSub")}
               </small>
             </div>
 
             <OptionGroup
-              title="Number of people"
-              options={PEOPLE_OPTIONS}
+              id="people"
+              title={t("location.groupPeople")}
+              options={peopleOptions}
               value={people}
               onChange={setPeople}
               cols="grid-cols-2 sm:grid-cols-4"
             />
             <OptionGroup
-              title="Meal timing"
-              options={FREQ_OPTIONS}
+              id="meals"
+              title={t("location.groupMeals")}
+              options={freqOptions}
               value={freq}
               onChange={setFreq}
               cols="grid-cols-1 sm:grid-cols-3"
             />
             <OptionGroup
-              title="Duration plan"
-              options={DURATION_OPTIONS}
+              id="plan"
+              title={t("location.groupPlan")}
+              options={durationOptions}
               value={duration}
               onChange={setDuration}
               cols="grid-cols-1 sm:grid-cols-3"
@@ -453,29 +410,27 @@ export default function LocationPage() {
               aria-live="polite"
             >
               <div>
-                <span className={label}>Estimated kitchen price</span>
+                <span className={label}>{t("location.priceLabel")}</span>
                 <div className="font-heading text-[2rem] font-bold leading-tight text-primary">
                   ₹{price.toLocaleString("en-IN")}
                   <small className="font-body text-[0.8rem] font-normal text-on-surface-variant">
                     {" "}
-                    {PERIOD_LABEL[duration]}
+                    {t(`location.period.${duration}`)}
                   </small>
                 </div>
               </div>
               <div className="flex flex-col gap-1 sm:items-end sm:text-right">
                 <span className="rounded-sm bg-tertiary-fixed px-2.5 py-0.5 text-[0.7rem] font-semibold text-tertiary">
-                  Direct Kitchen Rate
+                  {t("location.directRate")}
                 </span>
                 <small className="text-[0.72rem] text-on-surface-variant">
-                  Zero aggregator cut
+                  {t("location.zeroCut")}
                 </small>
               </div>
             </div>
 
             <p className="mb-4 mt-3 text-[0.72rem] italic leading-normal text-on-surface-variant">
-              *Prices depend on meal requirements, quantity of rotis, and
-              delivery cadence. Daily trial and monthly subscription estimates
-              available upon request.
+              {t("location.disclaimer")}
             </p>
 
             <a
@@ -484,7 +439,7 @@ export default function LocationPage() {
               rel="noreferrer"
               className={`mb-2.5 flex min-h-[50px] items-center justify-center gap-2 rounded-full bg-primary-container font-bold text-on-primary shadow-hover transition hover:bg-primary ${focusRing}`}
             >
-              Get Price for This Location <ArrowRight size={16} aria-hidden />
+              {t("location.getPrice")} <ArrowRight size={16} aria-hidden />
             </a>
             <a
               href={waLink(true)}
@@ -492,8 +447,8 @@ export default function LocationPage() {
               rel="noreferrer"
               className={`${softBtn} w-full`}
             >
-              <MessageSquare size={16} aria-hidden /> Ask for a Custom Quote on
-              WhatsApp
+              <MessageSquare size={16} aria-hidden />{" "}
+              {t("location.customQuote")}
             </a>
           </div>
 
@@ -502,14 +457,10 @@ export default function LocationPage() {
             <ThumbsUp size={22} className="mt-0.5 shrink-0" aria-hidden />
             <div>
               <h3 className="font-heading text-base font-semibold text-on-surface">
-                Our Fair Pricing Promise
+                {t("location.promiseTitle")}
               </h3>
               <p className="mt-1.5 text-[0.8rem] leading-relaxed text-on-surface-variant">
-                {KITCHEN_NAME} does not believe in hidden delivery markups or
-                arbitrary app platform commissions. Every quote is direct from
-                our kitchen to you. You pay strictly for quality whole grains,
-                fresh vegetables, cold-pressed oils, and fair courier
-                compensation.
+                {t("location.promiseBody", { kitchen: brand })}
               </p>
             </div>
           </div>
@@ -520,26 +471,28 @@ export default function LocationPage() {
       <section className="bg-surface-container-low pb-16 pt-14">
         <div className="mx-auto max-w-[1200px] px-5">
           <h2 className="text-center font-heading text-[clamp(1.5rem,3.5vw,2.1rem)] font-bold">
-            From Our Kadai to Your Dining Table
+            {t("location.steps.title")}
           </h2>
           <p className="mt-2 text-center text-[0.9rem] text-on-surface-variant">
-            We cook in small, staggered batches so your tiffin never sits in
-            transit for hours.
+            {t("location.steps.sub")}
           </p>
           <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
-            {STEPS.map(({ icon: Icon, time, title, text }, i) => (
-              <article key={title} className={card}>
+            {STEPS.map(({ key, icon: Icon }, i) => (
+              <article key={key} className={card}>
                 <span className="mb-[18px] grid h-12 w-12 place-items-center rounded-md bg-surface-container text-primary-container">
                   <Icon size={22} aria-hidden />
                 </span>
                 <small className="block text-[0.7rem] text-on-surface-variant">
-                  Step {String(i + 1).padStart(2, "0")} — {time}
+                  {t("location.steps.label", {
+                    n: String(i + 1).padStart(2, "0"),
+                    time: t(`location.steps.${key}.time`),
+                  })}
                 </small>
                 <h3 className="mt-1.5 font-heading text-[1.15rem] font-bold">
-                  {title}
+                  {t(`location.steps.${key}.title`)}
                 </h3>
                 <p className="mt-2 text-[0.82rem] leading-relaxed text-on-surface-variant">
-                  {text}
+                  {t(`location.steps.${key}.text`)}
                 </p>
               </article>
             ))}
