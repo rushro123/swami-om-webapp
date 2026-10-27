@@ -6,4 +6,5 @@ export const LOCALITIES = [
   { name: "Hinjawadi Phase 1", lat: 18.5912, lng: 73.7389, radius: 5000 },
   { name: "Kalyani Nagar", lat: 18.5463, lng: 73.9033, radius: 2800 },
   { name: "Hadapsar", lat: 18.5089, lng: 73.926, radius: 4400 },
+  
 ];
