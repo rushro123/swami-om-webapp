@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   Search,
   LocateFixed,
@@ -14,35 +13,45 @@ import {
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import PuneMap from "../components/PuneMap";
 import { useLocationStore, calcPrice } from "../store/locationStore";
-import { LOCALITIES } from "../data/localities";
 
-// ── Change this ──
+// ── Change these ──
 const WHATSAPP_NUMBER = "919763355563";
+const KITCHEN_NAME = "Swami Om";
 
-// Option values only — the visible labels come from i18n.js
-const PEOPLE_VALUES = [1, 2, 3, 4];
-const FREQ_VALUES = ["lunch", "dinner", "both"];
-const DURATION_VALUES = ["trial", "15days", "monthly"];
+// ── Quick-pick localities (approximate centre points) ──
+const LOCALITIES = [
+  { name: "Kothrud", lat: 18.5074, lng: 73.8077 },
+  { name: "Hadapsar", lat: 18.5089, lng: 73.926 },
+  { name: "Paud Phata", lat: 18.509223830580012, lng: 73.8218607174128 },
+  { name: "Bhusari Colony", lat: 18.508252304673327, lng: 73.79011179419194 },
+  { name: "Rambaug Colony", lat: 18.516448213884956, lng: 73.81681011756889 },
+];
 
-// Badge colours per zone — the text comes from i18n.js
-const ZONE_BADGE = {
-  inner: "bg-tertiary-fixed text-tertiary",
-  mid: "bg-primary-fixed text-primary",
-  outer: "bg-surface-variant text-on-surface-variant",
+const ZONE_INFO = {
+  inner: {
+    badge: "Service Available — Priority Route",
+    badgeClass: "bg-tertiary-fixed text-tertiary",
+    note: "Your address falls in our primary kitchen corridor. Hot home-style lunch and dinner can be dispatched reliably to your doorstep.",
+    delivery:
+      "Free delivery on 15 & 30-day plans! Since your locality is within 5 km of our central kitchen, daily transport fees are waived completely.",
+  },
+  mid: {
+    badge: "Service Available — Standard Route",
+    badgeClass: "bg-primary-fixed text-primary",
+    note: "Your address is within our standard delivery range. Tiffins are dispatched in scheduled batches along your route.",
+    delivery:
+      "A small delivery charge applies for your distance. It is lower on the monthly plan.",
+  },
+  outer: {
+    badge: "On Request — Custom Delivery",
+    badgeClass: "bg-surface-variant text-on-surface-variant",
+    note: "This location is outside our daily delivery zone. We can still serve you on request, so message us to confirm.",
+    delivery:     "Delivery for locations outside the 5 km coverage radius is quoted individually.",
+  },
 };
-
-const STEPS = [
-  { key: "cook", icon: ChefHat },
-  { key: "pack", icon: Package },
-  { key: "deliver", icon: Bike },
-];
-
-const PHOTOS = [
-  { key: "photo1", src: "/images/steel-dabbas.jpg" },
-  { key: "photo2", src: "/images/fresh-rotis.jpg" },
-];
 
 // ── Repeated class strings (all values come from your @theme tokens) ──
 const card = "rounded-lg bg-surface-container-lowest p-5 shadow-card";
@@ -53,16 +62,16 @@ const softBtn = `inline-flex min-h-12 items-center justify-center gap-2 rounded-
 
 // ── Option group (people / meals / duration) ──
 // `cols` must be a full class string so Tailwind can see it at build time
-function OptionGroup({ id, title, options, value, onChange, cols }) {
+function OptionGroup({ title, options, value, onChange, cols }) {
   return (
     <div className="mb-4">
-      <div className={label} id={`lbl-${id}`}>
+      <div className={label} id={`lbl-${title}`}>
         {title}
       </div>
       <div
         className={`mt-2 grid gap-2 ${cols}`}
         role="radiogroup"
-        aria-labelledby={`lbl-${id}`}
+        aria-labelledby={`lbl-${title}`}
       >
         {options.map((o) => {
           const active = value === o.value;
@@ -89,8 +98,19 @@ function OptionGroup({ id, title, options, value, onChange, cols }) {
 }
 
 export default function LocationPage() {
-  const { t, i18n } = useTranslation();
-
+  const { t } = useTranslation();
+  const peopleOptions = [1, 2, 3, 4].map((value) => ({
+    value,
+    label: t(`location.people.${value}`),
+  }));
+  const freqOptions = ["lunch", "dinner", "both"].map((value) => ({
+    value,
+    label: t(`location.freq.${value}`),
+  }));
+  const durationOptions = ["trial", "15days", "monthly"].map((value) => ({
+    value,
+    label: t(`location.duration.${value}`),
+  }));
   const pin = useLocationStore((s) => s.pin);
   const people = useLocationStore((s) => s.people);
   const freq = useLocationStore((s) => s.freq);
@@ -100,40 +120,25 @@ export default function LocationPage() {
   const setFreq = useLocationStore((s) => s.setFreq);
   const setDuration = useLocationStore((s) => s.setDuration);
 
-  // Locality names: Marathi if we have it, otherwise the English name
-  const locName = (n) => t(`localities.${n}`, { defaultValue: n });
-  const brand = t("brand");
-
-  const [query, setQuery] = useState(locName(pin.label));
+  const [query, setQuery] = useState(pin.label);
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [gpsError, setGpsError] = useState("");
 
   // Keep the input in sync when the pin moves (map click, drag, chip)
-  // or when the language changes
   useEffect(() => {
-    setQuery(locName(pin.label));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pin.label, i18n.language]);
-
-  // Translated option lists (built each render so they follow the language)
-  const peopleOptions = PEOPLE_VALUES.map((v) => ({
-    value: v,
-    label: t(`location.people.${v}`),
-  }));
-  const freqOptions = FREQ_VALUES.map((v) => ({
-    value: v,
-    label: t(`location.freq.${v}`),
-  }));
-  const durationOptions = DURATION_VALUES.map((v) => ({
-    value: v,
-    label: t(`location.duration.${v}`),
-  }));
+    setQuery(pin.label);
+  }, [pin.label]);
 
   // Subscribing to the pieces and calling calcPrice here makes the price
   // re-render on every change (store.getPrice() would not).
   const price = calcPrice({ zone: pin.zone, people, freq, duration });
-  const zoneKey = pin.zone;
+  const zone = {
+    ...ZONE_INFO[pin.zone],
+    badge: t(`location.zone.${pin.zone}.badge`),
+    note: t(`location.zone.${pin.zone}.note`),
+    delivery: t(`location.zone.${pin.zone}.delivery`),
+  };
   const activeChip = LOCALITIES.find((l) => l.name === pin.label)?.name;
 
   // Type a locality and press Enter → look it up (Nominatim, limited to Pune)
@@ -150,7 +155,8 @@ export default function LocationPage() {
         encodeURIComponent(q + ", Pune");
       const data = await (await fetch(url)).json();
       if (data[0]) setPin(parseFloat(data[0].lat), parseFloat(data[0].lon));
-      else setSearchError(t("location.errNotFound"));
+      else
+        setSearchError(t("location.errNotFound"));
     } catch {
       setSearchError(t("location.errSearch"));
     } finally {
@@ -160,30 +166,28 @@ export default function LocationPage() {
 
   const useGps = () => {
     setGpsError("");
-    if (!navigator.geolocation) return setGpsError(t("location.errGpsNA"));
+    if (!navigator.geolocation)
+      return setGpsError(t("location.errGpsNA"));
     navigator.geolocation.getCurrentPosition(
       (p) => setPin(p.coords.latitude, p.coords.longitude),
-      () => setGpsError(t("location.errGps")),
+      () =>
+        setGpsError(t("location.errGps")),
       { enableHighAccuracy: true, timeout: 10000 },
     );
   };
 
+  const meals = freqOptions.find((f) => f.value === freq)?.label;
+  const plan = t(`location.durationShort.${duration}`);
   const waLink = (custom) => {
-    const text = custom
-      ? t("location.waCustom", {
-          kitchen: brand,
-          label: locName(pin.label),
-          dist: pin.dist,
-        })
-      : t("location.waSubscribe", {
-          kitchen: brand,
-          label: locName(pin.label),
-          dist: pin.dist,
-          people,
-          meals: t(`location.freq.${freq}`),
-          plan: t(`location.durationShort.${duration}`),
-          price: price.toLocaleString("en-IN"),
-        });
+    const text = t(custom ? "location.waCustom" : "location.waSubscribe", {
+      kitchen: KITCHEN_NAME,
+      label: pin.label,
+      dist: pin.dist,
+      people,
+      meals,
+      plan,
+      price: price.toLocaleString("en-IN"),
+    });
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
@@ -213,9 +217,9 @@ export default function LocationPage() {
         </div>
       </section>
 
-      {/* ── 2. Two-column tool: left = find, right = result ── */}
-      <section className="mx-auto grid max-w-[1200px] grid-cols-1 items-start gap-6 px-5 pb-14 lg:grid-cols-[1.1fr_0.9fr]">
-        {/* LEFT COLUMN */}
+      {/* ── 2. Location search and full-width map ── */}
+      <section className="mx-auto flex max-w-[1200px] flex-col gap-6 px-5 pb-14">
+        {/* Search and full-width map */}
         <div className="flex min-w-0 flex-col gap-5">
           {/* Search card */}
           <div className={card}>
@@ -237,6 +241,9 @@ export default function LocationPage() {
                 </div>
                 <button type="button" onClick={useGps} className={softBtn}>
                   <LocateFixed size={16} aria-hidden /> {t("location.gps")}
+                </button>
+                <button type="submit" className={softBtn} disabled={searching}>
+                  <Search size={16} aria-hidden /> {t("location.search")}
                 </button>
               </div>
             </form>
@@ -270,7 +277,7 @@ export default function LocationPage() {
                       : "bg-surface-container text-on-surface hover:bg-surface-container-high"
                   }`}
                 >
-                  {locName(l.name)}
+                  {l.name}
                 </button>
               ))}
             </div>
@@ -278,7 +285,7 @@ export default function LocationPage() {
 
           {/* Map (your existing component) + info strip */}
           <div className="overflow-hidden rounded-lg bg-surface-container-lowest shadow-card">
-            <PuneMap />
+            <PuneMap locations={LOCALITIES} />
             <div className="flex flex-wrap items-center justify-between gap-3 bg-surface-container px-4 py-3 text-[0.78rem] text-on-surface-variant">
               <span className="inline-flex items-center gap-2">
                 <Bike
@@ -294,46 +301,16 @@ export default function LocationPage() {
             </div>
           </div>
 
-          {/* Photos */}
-          <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-            {PHOTOS.map((p) => (
-              <figure
-                key={p.src}
-                className="relative m-0 aspect-video overflow-hidden rounded-lg bg-surface-container"
-              >
-                <img
-                  src={p.src}
-                  alt={t(`location.${p.key}.alt`)}
-                  loading="lazy"
-                  className="h-full w-full object-cover"
-                />
-                <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-on-surface/75 to-transparent px-3 pb-2.5 pt-6 text-[0.78rem] font-semibold text-white">
-                  {t(`location.${p.key}.caption`)}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
         </div>
 
-        {/* RIGHT COLUMN */}
-        <aside className="flex min-w-0 flex-col gap-5">
-          <div className={`${card} lg:sticky lg:top-24`}>
-            <div className="flex flex-wrap items-center justify-between gap-2.5">
-              <span
-                className={`rounded-full px-3 py-1.5 text-[0.72rem] font-semibold ${ZONE_BADGE[zoneKey]}`}
-              >
-                {t(`location.zone.${zoneKey}.badge`)}
-              </span>
-              <span className="text-xs text-on-surface-variant">
-                {t("location.kmFrom", { dist: pin.dist })}
-              </span>
-            </div>
-
+        {/* Estimator below the full-width map */}
+        <aside className="block">
+          <div className={card}>
             <h2 className="mt-4 font-heading text-[1.45rem] font-bold">
-              {t("location.areaDelivery", { name: locName(pin.label) })}
+              {t("location.areaDelivery", { name: pin.label })}
             </h2>
             <p className="mt-2 text-[0.9rem] leading-relaxed text-on-surface-variant">
-              {t(`location.zone.${zoneKey}.note`)}
+              {zone.note}
             </p>
 
             {/* Slots */}
@@ -362,10 +339,7 @@ export default function LocationPage() {
               </div>
             </div>
 
-            <p className="mt-3.5 flex gap-2.5 rounded-md bg-surface-container px-3.5 py-3 text-[0.8rem] leading-normal text-primary">
-              <BadgeCheck size={16} className="mt-0.5 shrink-0" aria-hidden />
-              <span>{t(`location.zone.${zoneKey}.delivery`)}</span>
-            </p>
+            
 
             <hr className="my-5 border-0 border-t border-outline-variant/50" />
 
@@ -380,7 +354,6 @@ export default function LocationPage() {
             </div>
 
             <OptionGroup
-              id="people"
               title={t("location.groupPeople")}
               options={peopleOptions}
               value={people}
@@ -388,7 +361,6 @@ export default function LocationPage() {
               cols="grid-cols-2 sm:grid-cols-4"
             />
             <OptionGroup
-              id="meals"
               title={t("location.groupMeals")}
               options={freqOptions}
               value={freq}
@@ -396,7 +368,6 @@ export default function LocationPage() {
               cols="grid-cols-1 sm:grid-cols-3"
             />
             <OptionGroup
-              id="plan"
               title={t("location.groupPlan")}
               options={durationOptions}
               value={duration}
@@ -447,8 +418,7 @@ export default function LocationPage() {
               rel="noreferrer"
               className={`${softBtn} w-full`}
             >
-              <MessageSquare size={16} aria-hidden />{" "}
-              {t("location.customQuote")}
+              <MessageSquare size={16} aria-hidden /> {t("location.customQuote")}
             </a>
           </div>
 
@@ -460,7 +430,7 @@ export default function LocationPage() {
                 {t("location.promiseTitle")}
               </h3>
               <p className="mt-1.5 text-[0.8rem] leading-relaxed text-on-surface-variant">
-                {t("location.promiseBody", { kitchen: brand })}
+                {t("location.promiseBody", { kitchen: KITCHEN_NAME })}
               </p>
             </div>
           </div>
@@ -477,22 +447,26 @@ export default function LocationPage() {
             {t("location.steps.sub")}
           </p>
           <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
-            {STEPS.map(({ key, icon: Icon }, i) => (
-              <article key={key} className={card}>
+            {[
+              ["cook", ChefHat],
+              ["pack", Package],
+              ["deliver", Bike],
+            ].map(([step, Icon], i) => (
+              <article key={step} className={card}>
                 <span className="mb-[18px] grid h-12 w-12 place-items-center rounded-md bg-surface-container text-primary-container">
                   <Icon size={22} aria-hidden />
                 </span>
                 <small className="block text-[0.7rem] text-on-surface-variant">
                   {t("location.steps.label", {
                     n: String(i + 1).padStart(2, "0"),
-                    time: t(`location.steps.${key}.time`),
+                    time: t(`location.steps.${step}.time`),
                   })}
                 </small>
                 <h3 className="mt-1.5 font-heading text-[1.15rem] font-bold">
-                  {t(`location.steps.${key}.title`)}
+                  {t(`location.steps.${step}.title`)}
                 </h3>
                 <p className="mt-2 text-[0.82rem] leading-relaxed text-on-surface-variant">
-                  {t(`location.steps.${key}.text`)}
+                  {t(`location.steps.${step}.text`)}
                 </p>
               </article>
             ))}

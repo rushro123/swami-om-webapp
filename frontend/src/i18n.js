@@ -4,6 +4,7 @@ import { initReactI18next } from "react-i18next";
 /* ───────────────────────── ENGLISH ───────────────────────── */
 const en = {
   brand: "Swami Om",
+  fix: "Please enter your first name, last name, email, rating, and review.",
 
   nav: {
     home: "Home",
@@ -212,6 +213,30 @@ const en = {
     },
   },
 
+  rev: {
+    badge: "Share Your Experience",
+    h: "Real Stories From Our Customers",
+    intro: "Tell us what you loved about your Swami Om meal. Your feedback helps us keep every tiffin warm, fresh, and homestyle.",
+    avg: "Average rating",
+    total: "Reviews shared",
+    promise: "Every review is read by our kitchen team and helps us serve you better.",
+    load: "Loading reviews…",
+    empty: "No reviews yet",
+    emptyHint: "Be the first to share your experience with Swami Om.",
+    experience: "Your experience",
+    write: "Write a review",
+    proto: "Reviews are saved in this browser for now.",
+    firstName: "First name",
+    lastName: "Last name",
+    email: "Email address",
+    rating: "Rating",
+    text: "Your review",
+    submit: "Submit review",
+    saving: "Saving…",
+    ok: "Thank you for sharing your review!",
+    fail: "We could not save your review. Please try again.",
+  },
+
   /* ───────── ABOUT ───────── */
   about: {
     stats: {
@@ -323,8 +348,9 @@ const en = {
     intro:
       "Enter your locality or pin your address to check delivery coverage, delivery slots, and request transparent location-based pricing.",
     radiusLabel: "Central kitchen radius",
-    radiusValue: "12 km Guaranteed Fresh",
+    radiusValue: "7 km Guaranteed Fresh",
     searchLabel: "Locality, Apartment, or Landmark",
+    search: "Search",
     placeholder: "e.g. Kothrud",
     gps: "Use GPS",
     searching: "Searching…",
@@ -450,6 +476,7 @@ const en = {
     zoneMid: "🛵 Standard delivery",
     zoneOuter: "⚠️ Outside daily zone",
     legendTitle: "Delivery Zones",
+    coverageRadius: "Coverage radius",
     legendInner: "≤ 5 km — Free Delivery",
     legendMid: "5–12 km — Standard",
     legendOuter: "> 12 km — On Request",
@@ -463,6 +490,7 @@ const en = {
 /* ───────────────────────── MARATHI ───────────────────────── */
 const mr = {
   brand: "स्वामी ओम",
+  fix: "कृपया तुमचे पहिले नाव, आडनाव, ईमेल, रेटिंग आणि प्रतिक्रिया भरा.",
 
   nav: {
     home: "मुख्यपृष्ठ",
@@ -722,6 +750,30 @@ const mr = {
     },
   },
 
+  rev: {
+    badge: "तुमचा अनुभव सांगा",
+    h: "आमच्या ग्राहकांच्या खऱ्या प्रतिक्रिया",
+    intro: "स्वामी ओमच्या जेवणाबद्दल तुम्हाला काय आवडलं ते सांगा. तुमच्या प्रतिक्रियेमुळे प्रत्येक डबा गरम, ताजा आणि घरगुती ठेवण्यास आम्हाला मदत होते.",
+    avg: "सरासरी रेटिंग",
+    total: "एकूण प्रतिक्रिया",
+    promise: "प्रत्येक प्रतिक्रिया आमची स्वयंपाकघर टीम वाचते आणि त्यातून सेवा अधिक चांगली करण्यास मदत होते.",
+    load: "प्रतिक्रिया लोड होत आहेत…",
+    empty: "अजून प्रतिक्रिया नाहीत",
+    emptyHint: "स्वामी ओमसोबतचा तुमचा अनुभव सर्वप्रथम सांगा.",
+    experience: "तुमचा अनुभव",
+    write: "प्रतिक्रिया लिहा",
+    proto: "सध्या प्रतिक्रिया या ब्राउझरमध्ये जतन केल्या जातात.",
+    firstName: "पहिले नाव",
+    lastName: "आडनाव",
+    email: "ईमेल पत्ता",
+    rating: "रेटिंग",
+    text: "तुमची प्रतिक्रिया",
+    submit: "प्रतिक्रिया पाठवा",
+    saving: "जतन करत आहे…",
+    ok: "तुमची प्रतिक्रिया शेअर केल्याबद्दल धन्यवाद!",
+    fail: "प्रतिक्रिया जतन करता आली नाही. कृपया पुन्हा प्रयत्न करा.",
+  },
+
   /* ───────── ABOUT ───────── */
   about: {
     stats: {
@@ -833,8 +885,9 @@ const mr = {
     intro:
       "तुमचा परिसर टाका किंवा पत्त्यावर पिन लावा आणि डिलिव्हरी क्षेत्र, डिलिव्हरीच्या वेळा तपासा व स्थानानुसार पारदर्शक दराची विनंती करा.",
     radiusLabel: "मध्यवर्ती स्वयंपाकघराची त्रिज्या",
-    radiusValue: "12 किमी ताज्या जेवणाची हमी",
+    radiusValue: "7 किमी ताज्या जेवणाची हमी",
     searchLabel: "परिसर, अपार्टमेंट किंवा खूण",
+    search: "शोधा",
     placeholder: "उदा. कोथरूड",
     gps: "GPS वापरा",
     searching: "शोधत आहे…",
@@ -959,6 +1012,7 @@ const mr = {
     zoneMid: "🛵 नेहमीची डिलिव्हरी",
     zoneOuter: "⚠️ रोजच्या क्षेत्राबाहेर",
     legendTitle: "डिलिव्हरी क्षेत्रे",
+    coverageRadius: "कव्हरेज त्रिज्या",
     legendInner: "≤ 5 किमी — मोफत डिलिव्हरी",
     legendMid: "5–12 किमी — नेहमीची",
     legendOuter: "> 12 किमी — विनंतीनुसार",

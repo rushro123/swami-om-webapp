@@ -1,8 +1,9 @@
 import { create } from "zustand";
 
 // ── Kitchen coordinates (central Pune) ──
-export const KITCHEN_LAT = 18.512734;
-export const KITCHEN_LNG = 73.68412; // ~Kothrud area
+export const KITCHEN_LAT = 18.513048865500668;
+export const KITCHEN_LNG = 73.68414165344626;
+  // ~Kothrud area
 
 // ── Haversine distance in km ──
 export function haversineKm(lat1, lng1, lat2, lng2) {
@@ -50,7 +51,7 @@ export const useLocationStore = create((set, get) => ({
   pin: {
     lat: KITCHEN_LAT,
     lng: KITCHEN_LNG,
-    label: "Kothrud, Pune",
+    label: "Swami Om Central Kitchen",
     dist: 0,
     zone: "inner",
   },

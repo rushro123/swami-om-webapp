@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { key: "nav.home", to: "/" },
   { key: "nav.about", to: "/about" },
   { key: "nav.location", to: "/location" },
-  { key: "nav.review", to: "/about" },
+  { key: "nav.review", to: "/reviews" },
   { key: "nav.menu", to: "/menu" },
 ];
 
@@ -24,7 +24,7 @@ export default function Header() {
       style={{
         position: "sticky",
         top: 0,
-        zIndex: 50,
+        zIndex: 1100,
         background: "rgba(255,255,255,0.97)",
         backdropFilter: "blur(12px)",
         borderBottom: "1px solid #e1bfb5",

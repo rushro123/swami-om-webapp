@@ -163,59 +163,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── JOURNEY TIMELINE ── */}
-      <section className="mx-auto mt-14 max-w-[900px] px-6">
-        <Reveal>
-          <SectionHead
-            badge={t("about.timeline.badge")}
-            badgeClass="bg-tertiary/10 text-tertiary"
-            title={t("about.timeline.title")}
-          />
-
-          <div className="relative pl-8">
-            {/* Vertical line */}
-            <div className="absolute bottom-0 left-[0.6rem] top-0 w-0.5 rounded-[1px] bg-linear-to-b from-primary to-tertiary" />
-
-            <div className="flex flex-col gap-8">
-              {MILESTONES.map((m, i) => {
-                const warm = i % 2 === 0;
-                return (
-                  <div key={m.year} className="relative pl-4">
-                    {/* Dot */}
-                    <div
-                      className={`absolute -left-[1.85rem] top-1 size-3.5 rounded-full border-2 border-white ring-[3px] ${
-                        warm
-                          ? "bg-primary ring-primary-fixed"
-                          : "bg-tertiary ring-tertiary/20"
-                      }`}
-                    />
-                    <div className="rounded-md border border-outline-variant bg-surface-container-lowest px-5 py-4 shadow-card">
-                      <div className="mb-1 flex items-center justify-between gap-3">
-                        <span
-                          className={`font-heading text-sm font-extrabold ${warm ? "text-primary" : "text-tertiary"}`}
-                        >
-                          {m.year}
-                        </span>
-                        <span
-                          className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
-                            warm
-                              ? "bg-primary-fixed text-primary"
-                              : "bg-tertiary/10 text-tertiary"
-                          }`}
-                        >
-                          {t(`about.timeline.${m.key}.label`)}
-                        </span>
-                      </div>
-                      <p className="m-0 text-[13px] leading-normal text-on-surface-variant">
-                        {t(`about.timeline.${m.key}.desc`)}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </Reveal>
-      </section>
+      
 
       {/* ── TEAM ── */}
       <section className={SECTION}>
