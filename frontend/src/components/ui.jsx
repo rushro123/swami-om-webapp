@@ -98,11 +98,11 @@ export function Card({ children, className = "" }) {
   );
 }
 
-/* ── Veg marker (green dot in a green square) ── */
+/* ── Vegetarian marker (green dot in a green square) ── */
 export function VegDot() {
   return (
     <span
-      title="Pure Veg"
+      title="Vegetarian"
       className="inline-flex size-4 shrink-0 items-center justify-center rounded-[3px] border-2 border-tertiary"
     >
       <span className="size-[7px] rounded-full bg-tertiary" />

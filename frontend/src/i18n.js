@@ -41,7 +41,7 @@ const en = {
       badge: "🍲 Traditional Kitchen Warmth",
       title1: "Homemade Meals,",
       title2: "Made with Care.",
-      desc: "Authentic Maharashtrian home cooking delivered to your doorstep. Pure vegetarian meals made fresh daily — आईच्या हातचं जेवण.",
+      desc: "Authentic Maharashtrian home cooking delivered to your doorstep. Fresh vegetarian and non-vegetarian meals made daily — आईच्या हातचं जेवण.",
       btnWhatsapp: "💬 WhatsApp Enquiry",
       btnAbout: "🙏 About Us",
       trust: {
@@ -83,6 +83,7 @@ const en = {
     dishes: {
       badge: "Authentic Indian Flavors",
       title: "Frequently Served Homestyle Dishes",
+      menuOptions: "Veg & Non-Veg",
       askMenu: "💬 Ask Today's Menu via WhatsApp",
       noticeTitle: "Seasonal Daily Rotation",
       noticeBody:
@@ -94,15 +95,15 @@ const en = {
       customCta: "Tell Us Your Preference →",
       regular: {
         tag: "Frequently Served",
-        title: "Regular Vegetarian Thali",
-        desc: "3 Regular Chapati, Dal Tadka, Seasonal Daily Sabzi,Rice",
+        title: "Regular Veg & Non-Veg Thali",
+        desc: "Fresh vegetarian and non-vegetarian thali options with chapati, dal, seasonal sabzi, rice, and rotating specials.",
         badge: "Balanced Everyday Nutrition",
       },
       thursday: {
         tag: "Thursday Special",
-        title: "Special Thursday Thali",
+        title: "Special Thursday Veg Thali",
         desc: "3 Regular Chapati,Seasonal Sabzi,Pulao, and one sweet.",
-        badge: "Thursday Treat",
+        badge: "Thursday Veg Treat",
       },
       sabzi: {
         tag: "Availability Varies",
@@ -231,12 +232,12 @@ const en = {
       years: "Years of Service",
       meals: "Daily Meals Served",
       localities: "Pune Localities",
-      veg: "Pure Vegetarian",
+      options: "Meal Options",
     },
     hero: {
       badge: "🍲 Our Story & Values",
       title: "About Swami Om Tiffin Services",
-      desc: "Born in a Kothrud kitchen, built on decades of Maharashtrian culinary tradition, and driven by a single belief — every person deserves to eat like they're home, no matter how far they've come.",
+      desc: "Born in a Pirangut kitchen, built on decades of Maharashtrian culinary tradition, and driven by a single belief — every person deserves to eat like they're home, no matter how far they've come.",
     },
     origin: {
       badge: "Our Origin Story",
@@ -252,8 +253,8 @@ const en = {
       badge: "Our Commitments",
       title: "What Makes Swami Om Different",
       v1: {
-        title: "Pure Vegetarian Always",
-        desc: "Every dish at Swami Om is 100% vegetarian — no eggs, no non-veg contamination. Our kitchen, utensils, and ingredients are strictly satvik and pure.",
+        title: "Veg & Non-Veg Choices",
+        desc: "Choose from freshly prepared vegetarian and non-vegetarian meals. We use separate preparation practices and clearly communicate menu ingredients.",
       },
       v2: {
         title: "No Artificial Additives",
@@ -302,7 +303,7 @@ const en = {
         name: "Swami Om",
         role: "Owner",
         initials: "SO",
-        bio: "The owner of Swami Om Tiffin Service, dedicated to bringing fresh, homestyle vegetarian meals and personal care to every customer.",
+        bio: "The owner of Swami Om Tiffin Service, dedicated to bringing fresh, homestyle vegetarian and non-vegetarian meals with personal care to every customer.",
       },
     },
     cta: {
@@ -348,6 +349,8 @@ const en = {
     dinnerPrep: "Prep at 5:30 PM",
     estimatorTitle: "Customise Meal Estimator",
     estimatorSub: "Instant transparent quote",
+    estimateLocation: "Delivery location",
+    estimateKitchen: "Nearest kitchen: {{name}}",
     groupPeople: "Number of people",
     groupMeals: "Meal timing",
     groupPlan: "Duration plan",
@@ -441,6 +444,7 @@ const en = {
   map: {
     kitchenName: "🏠 Swami Om Central Kitchen",
     kitchenSub: "Kothrud · All tiffins dispatched from here",
+    kitchenAdditional: "Additional kitchen hub",
     locating: "⏳ Locating…",
     kmFromKitchen: "{{dist}} km from kitchen",
     zoneInner: "✅ Free delivery zone",
@@ -548,7 +552,7 @@ const mr = {
       badge: "🍲 पारंपरिक स्वयंपाकघराची उब",
       title1: "घरगुती जेवण,",
       title2: "मायेने बनवलेलं.",
-      desc: "अस्सल महाराष्ट्रीयन घरगुती जेवण थेट तुमच्या दारापर्यंत. रोज ताजे बनवलेले शुद्ध शाकाहारी जेवण — आईच्या हातचं जेवण.",
+      desc: "अस्सल महाराष्ट्रीयन घरगुती जेवण थेट तुमच्या दारापर्यंत. रोज ताजे बनवलेले शाकाहारी आणि मांसाहारी जेवण — आईच्या हातचं जेवण.",
       btnWhatsapp: "💬 व्हॉट्सअ‍ॅप चौकशी",
       btnAbout: "🙏 आमच्याबद्दल",
       trust: {
@@ -590,6 +594,7 @@ const mr = {
     dishes: {
       badge: "अस्सल भारतीय चवी",
       title: "नेहमी मिळणारे घरगुती पदार्थ",
+      menuOptions: "शाकाहारी आणि मांसाहारी",
       askMenu: "💬 आजचा मेन्यू व्हॉट्सअ‍ॅपवर विचारा",
       noticeTitle: "हंगामी रोजचा बदल",
       noticeBody:
@@ -601,15 +606,15 @@ const mr = {
       customCta: "तुमची आवड सांगा →",
       regular: {
         tag: "नेहमी बनणारी",
-        title: "साधी शाकाहारी थाळी",
+        title: "शाकाहारी आणि मांसाहारी थाळी",
         desc: "3 साध्या चपाती, डाळ तडका, रोजची हंगामी भाजी आणि भात.",
         badge: "रोजचे संतुलित पोषण",
       },
       thursday: {
         tag: "गुरुवार स्पेशल",
-        title: "खास गुरुवार थाळी",
+        title: "खास गुरुवार शाकाहारी थाळी",
         desc: "3 साध्या चपाती, हंगामी भाजी, पुलाव आणि एक गोड पदार्थ.",
-        badge: "गुरुवारची मेजवानी",
+        badge: "गुरुवारची शाकाहारी मेजवानी",
       },
       sabzi: {
         tag: "उपलब्धता बदलते",
@@ -739,12 +744,12 @@ const mr = {
       years: "सेवेची वर्षे",
       meals: "रोज दिलेली जेवणे",
       localities: "पुण्यातील परिसर",
-      veg: "शुद्ध शाकाहारी",
+      options: "जेवणाचे पर्याय",
     },
     hero: {
       badge: "🍲 आमची कहाणी आणि मूल्ये",
       title: "स्वामी ओम टिफिन सर्व्हिसेसबद्दल",
-      desc: "कोथरूडच्या एका स्वयंपाकघरात जन्म घेतलेली, अनेक दशकांच्या महाराष्ट्रीयन पाककला परंपरेवर उभी राहिलेली आणि एका विश्वासावर चालणारी — कितीही दूर आलात तरी प्रत्येकाला घरी असल्यासारखं जेवण मिळायला हवं.",
+      desc: "पिरंगुटच्या एका स्वयंपाकघरात जन्म घेतलेली, अनेक दशकांच्या महाराष्ट्रीयन पाककला परंपरेवर उभी राहिलेली आणि एका विश्वासावर चालणारी — कितीही दूर आलात तरी प्रत्येकाला घरी असल्यासारखं जेवण मिळायला हवं.",
     },
     origin: {
       badge: "आमची सुरुवात",
@@ -760,8 +765,8 @@ const mr = {
       badge: "आमची वचनबद्धता",
       title: "स्वामी ओम वेगळे का आहे",
       v1: {
-        title: "नेहमी शुद्ध शाकाहारी",
-        desc: "स्वामी ओममधील प्रत्येक पदार्थ 100% शाकाहारी आहे — अंडी नाहीत, मांसाहाराचा संपर्क नाही. आमचे स्वयंपाकघर, भांडी आणि सामग्री पूर्णपणे सात्त्विक आणि शुद्ध आहे.",
+        title: "शाकाहारी आणि मांसाहारी पर्याय",
+        desc: "ताजे बनवलेले शाकाहारी आणि मांसाहारी जेवण निवडा. स्वतंत्र तयारीची काळजी घेतली जाते आणि मेन्यूमधील पदार्थ स्पष्टपणे सांगितले जातात.",
       },
       v2: {
         title: "कोणतेही कृत्रिम पदार्थ नाहीत",
@@ -833,7 +838,7 @@ const mr = {
         name: "स्वामी ओम",
         role: "मालक",
         initials: "स्वो",
-        bio: "स्वामी ओम टिफिन सर्व्हिसचे मालक, प्रत्येक ग्राहकाला ताजे, घरगुती शाकाहारी जेवण आणि आपुलकीची सेवा देण्यासाठी समर्पित.",
+        bio: "स्वामी ओम टिफिन सर्व्हिसचे मालक, प्रत्येक ग्राहकाला ताजे, घरगुती शाकाहारी आणि मांसाहारी जेवण तसेच आपुलकीची सेवा देण्यासाठी समर्पित.",
       },
     },
     cta: {
@@ -876,6 +881,8 @@ const mr = {
     dinnerPrep: "तयारी संध्याकाळी 5:30 ला",
     estimatorTitle: "तुमचा जेवणाचा अंदाज ठरवा",
     estimatorSub: "त्वरित पारदर्शक दरपत्रक",
+    estimateLocation: "डिलिव्हरीचे ठिकाण",
+    estimateKitchen: "जवळचे स्वयंपाकघर: {{name}}",
     groupPeople: "व्यक्तींची संख्या",
     groupMeals: "जेवणाची वेळ",
     groupPlan: "योजनेचा कालावधी",
@@ -971,6 +978,7 @@ const mr = {
   map: {
     kitchenName: "🏠 स्वामी ओम सेंट्रल किचन",
     kitchenSub: "कोथरूड · सर्व डबे येथूनच पाठवले जातात",
+    kitchenAdditional: "अतिरिक्त किचन केंद्र",
     locating: "⏳ स्थान शोधत आहे…",
     kmFromKitchen: "स्वयंपाकघरापासून {{dist}} किमी",
     zoneInner: "✅ मोफत डिलिव्हरी क्षेत्र",

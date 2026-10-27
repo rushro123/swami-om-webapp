@@ -58,7 +58,7 @@ export default function Footer() {
               </span>
             </div>
             <p style={{ fontSize: 13, lineHeight: 1.7, marginBottom: '0.75rem' }}>
-              Wholesome, soul-satisfying homemade Maharashtrian meals prepared daily with pure spices, fresh produce, and traditional culinary warmth.
+              Wholesome homemade Maharashtrian vegetarian and non-vegetarian meals prepared daily with fresh produce, thoughtful spices, and traditional culinary warmth.
             </p>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: 12, color: '#246131', fontWeight: 600 }}>
               ✓ 100% Homestyle Clean Cooking
@@ -94,7 +94,7 @@ export default function Footer() {
                 <strong>Daily Changing Menus:</strong> Our tiffin dishes vary daily to ensure balanced nutrition and authentic freshness.
               </p>
               <p style={{ margin: 0 }}>
-                <strong>Pure Vegetarian:</strong> All meals are strictly vegetarian with no eggs, no non-veg contamination, and no artificial additives.
+                <strong>Veg & Non-Veg Options:</strong> Vegetarian and non-vegetarian meals are prepared fresh with menu ingredients clearly communicated. Please share dietary preferences when ordering.
               </p>
             </div>
           </div>
@@ -102,7 +102,7 @@ export default function Footer() {
 
         <div style={s.bottom}>
           <span>© 2024 Swami Om Tiffin Service. All rights reserved.</span>
-          <span style={{ color: '#7d5800', fontWeight: 600 }}>Pure Homestyle Comfort · Delivered Daily · Pune</span>
+          <span style={{ color: '#7d5800', fontWeight: 600 }}>Veg & Non-Veg Homestyle Comfort · Delivered Daily · Pune</span>
         </div>
       </div>
     </footer>

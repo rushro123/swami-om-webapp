@@ -4,10 +4,8 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useTranslation } from 'react-i18next'
 import {
-  KITCHEN_LAT,
-  KITCHEN_LNG,
-  calcPrice,
-  haversineKm,
+  KITCHENS,
+  nearestKitchen,
   useLocationStore,
   zoneFromDist,
 } from '../store/locationStore'
@@ -99,7 +97,7 @@ function ClickToPin() {
 }
 
 // ── Recenter map smoothly when store pin changes ──
-function MapRecenter({ lat, lng }) {
+function MapRecenter({ lat, lng, zoomIn }) {
   const map = useMap()
   const hasMounted = useRef(false)
 
@@ -109,9 +107,9 @@ function MapRecenter({ lat, lng }) {
       return
     }
     if (lat && lng) {
-      map.flyTo([lat, lng], map.getZoom(), { duration: 0.8 })
+      map.flyTo([lat, lng], zoomIn ? 14 : map.getZoom(), { duration: 0.8 })
     }
-  }, [lat, lng, map])
+  }, [lat, lng, map, zoomIn])
   return null
 }
 
@@ -120,13 +118,15 @@ function FitCoverageLocations({ locations }) {
   const hasFit = useRef(false)
 
   useEffect(() => {
-    if (hasFit.current || locations.length === 0) return
+    if (hasFit.current) return
 
-    const bounds = L.latLngBounds([
-      [KITCHEN_LAT, KITCHEN_LNG],
-      ...locations.map(({ lat, lng }) => [lat, lng]),
-    ])
-    map.fitBounds(bounds, { padding: [64, 64], maxZoom: 11 })
+    map.fitBounds(
+      [
+        [18.25, 73.55],
+        [18.8, 74.15],
+      ],
+      { padding: [24, 24], maxZoom: 10 },
+    )
     hasFit.current = true
   }, [locations, map])
 
@@ -138,25 +138,22 @@ export default function PuneMap({ locations = [] }) {
   const { t } = useTranslation()
   const pin             = useLocationStore(s => s.pin)
   const geocodeLoading  = useLocationStore(s => s.geocodeLoading)
-  const setPin          = useLocationStore(s => s.setPin)
-  const people          = useLocationStore(s => s.people)
-  const freq            = useLocationStore(s => s.freq)
-  const duration        = useLocationStore(s => s.duration)
+  const setPin = useLocationStore(s => s.setPin)
   const markerRef       = useRef(null)
   const [animatedLocality, setAnimatedLocality] = useState(null)
   const selectedLocality = locations.some(
     (location) => location.lat === pin.lat && location.lng === pin.lng,
   )
-  const isKitchenPin = pin.lat === KITCHEN_LAT && pin.lng === KITCHEN_LNG
+  const selectedKitchen = KITCHENS.find(
+    (kitchen) => kitchen.lat === pin.lat && kitchen.lng === pin.lng,
+  )
+  const isKitchenPin = Boolean(selectedKitchen)
   const coverageRadius = isKitchenPin
     ? COVERAGE_RADIUS_METERS
     : SELECTED_LOCATION_RADIUS_METERS
   const coverageCenter = isKitchenPin
-    ? [KITCHEN_LAT, KITCHEN_LNG]
+    ? [selectedKitchen.lat, selectedKitchen.lng]
     : [pin.lat, pin.lng]
-  const days = duration === 'trial' ? 1 : duration === '15days' ? 15 : 30
-  const mealsPerDay = freq === 'both' ? 2 : 1
-
   // Sync draggable marker → store
   const onDragEnd = () => {
     const m = markerRef.current
@@ -172,7 +169,7 @@ export default function PuneMap({ locations = [] }) {
 
       <MapContainer
         center={[18.52, 73.86]}
-        zoom={11}
+        zoom={10}
         minZoom={10}
         maxBounds={[[18.25, 73.55], [18.80, 74.15]]}
         style={{ height: 440, width: '100%', cursor: 'crosshair' }}
@@ -180,7 +177,11 @@ export default function PuneMap({ locations = [] }) {
         zoomControl
       >
         <FitCoverageLocations locations={locations} />
-        <MapRecenter lat={pin.lat} lng={pin.lng} />
+        <MapRecenter
+          lat={pin.lat}
+          lng={pin.lng}
+          zoomIn={selectedLocality}
+        />
 
         {/* OpenStreetMap tiles — free, no key */}
         <TileLayer
@@ -193,36 +194,34 @@ export default function PuneMap({ locations = [] }) {
           pathOptions={{ color: '#246131', fillColor: 'rgba(36,97,49,0.06)',
             dashArray: '6,4', weight: 1.8, fillOpacity: 1 }} />
 
-        {/* Kitchen hub marker */}
-        <Marker
-          position={[KITCHEN_LAT, KITCHEN_LNG]}
-          icon={kitchenIcon}
-          eventHandlers={{
-            click: (event) => {
-              L.DomEvent.stopPropagation(event)
-              setPin(KITCHEN_LAT, KITCHEN_LNG)
-            },
-          }}
-        >
-          <Popup>
-            <div style={{ fontFamily: 'Noto Sans, sans-serif', fontSize: 13, minWidth: 160 }}>
-              <strong style={{ color: '#246131' }}>{t('map.kitchenName')}</strong><br/>
-              <span style={{ color: '#59413a', fontSize: 12 }}>{t('map.kitchenSub')}</span>
-            </div>
-          </Popup>
-        </Marker>
+        {/* Kitchen hub markers */}
+        {KITCHENS.map((kitchen) => (
+          <Marker
+            key={kitchen.id}
+            position={[kitchen.lat, kitchen.lng]}
+            icon={kitchenIcon}
+            eventHandlers={{
+              click: (event) => {
+                L.DomEvent.stopPropagation(event)
+                setPin(kitchen.lat, kitchen.lng)
+              },
+            }}
+          >
+            <Popup>
+              <div style={{ fontFamily: 'Noto Sans, sans-serif', fontSize: 13, minWidth: 160 }}>
+                <strong style={{ color: '#246131' }}>{kitchen.name}</strong><br/>
+                <span style={{ color: '#59413a', fontSize: 12 }}>
+                  {kitchen.primary ? t('map.kitchenSub') : t('map.kitchenAdditional')}
+                </span>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
 
         {locations.map((location) => (
           (() => {
-            const distance = haversineKm(
-              KITCHEN_LAT,
-              KITCHEN_LNG,
-              location.lat,
-              location.lng,
-            )
+            const distance = nearestKitchen(location.lat, location.lng).dist
             const zone = zoneFromDist(distance)
-            const totalPrice = calcPrice({ zone, people, freq, duration })
-            const pricePerTiffin = Math.ceil(totalPrice / (days * mealsPerDay * people))
 
             return (
               <Marker
@@ -251,7 +250,7 @@ export default function PuneMap({ locations = [] }) {
                     </span>
                     <br/>
                     <strong style={{ color: '#9b2f00', fontSize: 13 }}>
-                      ₹{pricePerTiffin} per tiffin
+                      ₹{location.price/30} per tiffin
                     </strong>
                   </div>
                 </Popup>

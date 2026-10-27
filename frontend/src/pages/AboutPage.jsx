@@ -11,10 +11,10 @@ import {
 /* ─────────────── static data (text lives in i18n.js) ─────────────── */
 
 const STATS = [
-  { val: "1+", key: "years" },
-  { val: "100", key: "meals" },
+  { val: "3+", key: "years" },
+  { val: "100+", key: "meals" },
   { val: "15+", key: "localities" },
-  { val: "100%", key: "veg" },
+  { val: "Veg + Non-Veg", key: "options" },
 ];
 
 const VALUES = [

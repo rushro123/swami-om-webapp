@@ -15,24 +15,14 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import PuneMap from "../components/PuneMap";
-import { useLocationStore, calcPrice } from "../store/locationStore";
-
+import { KITCHENS, useLocationStore } from "../store/locationStore";
+import { LOCALITIES } from "../data/localities";
 // ── Change these ──
 const WHATSAPP_NUMBER = "919763355563";
 const KITCHEN_NAME = "Swami Om";
 
 // ── Quick-pick localities (approximate centre points) ──
-const LOCALITIES = [
-  { name: "Kothrud", lat: 18.5074, lng: 73.8077 },
-  { name: "Hadapsar", lat: 18.5089, lng: 73.926 },
-  { name: "Sadashiv Peth", lat: 18.508525367819473, lng: 73.84410378352344 },
-  {name:"Deccan",lat:18.516951063022077,lng: 73.83663748884236},
-  {name:"Peths",lat:18.517470628550036,lng: 73.86121941493717},
-  {name:"Bhusari Colony",lat:18.509233440674656,lng:73.79032605810306},
-  {name:"Bavdhan",lat:18.515219639547826,lng: 73.76935233757787},
-  {name:"Dahanukar Colony",lat:18.495699094119264, lng:73.81101036650918},
-  { name: "Rambaug Colony", lat: 18.516448213884956, lng: 73.81681011756889 },
-];
+
 
 const ZONE_INFO = {
   inner: {
@@ -134,9 +124,7 @@ export default function LocationPage() {
     setQuery(pin.label);
   }, [pin.label]);
 
-  // Subscribing to the pieces and calling calcPrice here makes the price
-  // re-render on every change (store.getPrice() would not).
-  const price = calcPrice({ zone: pin.zone, people, freq, duration });
+  const price = pin.price;
   const zone = {
     ...ZONE_INFO[pin.zone],
     badge: t(`location.zone.${pin.zone}.badge`),
@@ -144,6 +132,12 @@ export default function LocationPage() {
     delivery: t(`location.zone.${pin.zone}.delivery`),
   };
   const activeChip = LOCALITIES.find((l) => l.name === pin.label)?.name;
+  const selectedLocationValue = `${pin.lat},${pin.lng}`;
+
+  const selectLocation = (value) => {
+    const [lat, lng] = value.split(",").map(Number);
+    if (Number.isFinite(lat) && Number.isFinite(lng)) setPin(lat, lng);
+  };
 
   // Type a locality and press Enter → look it up (Nominatim, limited to Pune)
   const searchLocality = async (e) => {
@@ -356,6 +350,36 @@ export default function LocationPage() {
                 {t("location.estimatorSub")}
               </small>
             </div>
+
+            <label htmlFor="estimate-location" className={label}>
+              {t("location.estimateLocation")}
+            </label>
+            <select
+              id="estimate-location"
+              value={selectedLocationValue}
+              onChange={(e) => selectLocation(e.target.value)}
+              className="mb-4 mt-2 w-full rounded-md bg-surface-container px-3.5 py-3 text-sm text-on-surface outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+            >
+              {KITCHENS.map((kitchen) => (
+                <option
+                  key={kitchen.id}
+                  value={`${kitchen.lat},${kitchen.lng}`}
+                >
+                  {kitchen.name}
+                </option>
+              ))}
+              {LOCALITIES.map((locality) => (
+                <option
+                  key={locality.name}
+                  value={`${locality.lat},${locality.lng}`}
+                >
+                  {locality.name}
+                </option>
+              ))}
+            </select>
+            <p className="mb-4 -mt-2 text-[0.72rem] text-on-surface-variant">
+              {t("location.estimateKitchen", { name: pin.kitchenName })}
+            </p>
 
             <OptionGroup
               title={t("location.groupPeople")}

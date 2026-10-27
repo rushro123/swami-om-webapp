@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Badge, Btn, Card, VegDot, Reveal, waLink } from "../components/ui";
+import { Badge, Btn, Card, Reveal, waLink } from "../components/ui";
 
 /* ─────────────── static data (text lives in i18n.js) ─────────────── */
 const DISHES = [
@@ -283,7 +283,7 @@ export default function HomePage() {
                       <h3 className="font-heading text-[15px] font-semibold text-on-surface">
                         {title}
                       </h3>
-                      <VegDot />
+                      
                     </div>
                     <p className="mb-2.5 text-[12.5px] leading-[1.6] text-on-surface-variant">
                       {t(`home.dishes.${dish.key}.desc`)}

@@ -1,9 +1,28 @@
 import { create } from "zustand";
+import { LOCALITIES } from "../data/localities";
 
-// ── Kitchen coordinates (central Pune) ──
-export const KITCHEN_LAT = 18.513048865500668;
-export const KITCHEN_LNG = 73.68414165344626;
-  // ~Kothrud area
+// ── Kitchen locations ──
+// Keep the first kitchen as the pricing reference until per-kitchen pricing is added.
+export const KITCHENS = [
+  {
+    id: "central",
+    name: "Swami Om Central Kitchen",
+    lat: 18.513048865500668,
+    lng: 73.68414165344626,
+    primary: true,
+  },
+  {
+    id: "Peth",
+    name: "Swami Peth Kitchen",
+    lat: 18.51681155759573, 
+    lng: 73.84990072315956,
+    primary: false,
+  },
+];
+
+export const [PRIMARY_KITCHEN] = KITCHENS;
+export const KITCHEN_LAT = PRIMARY_KITCHEN.lat;
+export const KITCHEN_LNG = PRIMARY_KITCHEN.lng;
 
 // ── Haversine distance in km ──
 export function haversineKm(lat1, lng1, lat2, lng2) {
@@ -25,24 +44,23 @@ export function zoneFromDist(km) {
   return "outer";
 }
 
-// ── Price calculator ──
-export function calcPrice({ zone, people, freq, duration }) {
-  const base = 115;
-  const mealsPerDay = freq === "both" ? 2 : 1;
-  const days = duration === "trial" ? 1 : duration === "15days" ? 15 : 30;
-  const durMult =
-    duration === "trial" ? 1.15 : duration === "15days" ? 1.05 : 1.0;
-  const headMult =
-    people >= 4 ? 3.6 : people === 3 ? 2.8 : people === 2 ? 1.95 : 1;
-  const delivery =
-    zone === "mid"
-      ? duration === "monthly"
-        ? 200
-        : 350
-      : zone === "outer"
-        ? 600
-        : 0;
-  return Math.round(base * mealsPerDay * days * headMult * durMult + delivery);
+export function nearestKitchen(lat, lng) {
+  return KITCHENS.reduce((nearest, kitchen) => {
+    const distance = haversineKm(kitchen.lat, kitchen.lng, lat, lng);
+    if (!nearest || distance < nearest.dist) {
+      return { kitchen, dist: distance };
+    }
+    return nearest;
+  }, null);
+}
+
+const DEFAULT_LOCATION_PRICE = 2700;
+
+function priceForLocation(lat, lng) {
+  return (
+    LOCALITIES.find((locality) => locality.lat === lat && locality.lng === lng)
+      ?.price ?? DEFAULT_LOCATION_PRICE
+  );
 }
 
 // ── Zustand store ──
@@ -54,6 +72,9 @@ export const useLocationStore = create((set, get) => ({
     label: "Swami Om Central Kitchen",
     dist: 0,
     zone: "inner",
+    kitchenId: PRIMARY_KITCHEN.id,
+    kitchenName: PRIMARY_KITCHEN.name,
+    price: DEFAULT_LOCATION_PRICE,
   },
 
   // Meal estimator selections
@@ -66,7 +87,8 @@ export const useLocationStore = create((set, get) => ({
 
   // ── Actions ──
   setPin: (lat, lng) => {
-    const dist = haversineKm(KITCHEN_LAT, KITCHEN_LNG, lat, lng);
+    const nearest = nearestKitchen(lat, lng);
+    const dist = nearest.dist;
     const zone = zoneFromDist(dist);
     set({
       pin: {
@@ -75,6 +97,9 @@ export const useLocationStore = create((set, get) => ({
         label: "Locating…",
         dist: parseFloat(dist.toFixed(1)),
         zone,
+        kitchenId: nearest.kitchen.id,
+        kitchenName: nearest.kitchen.name,
+        price: priceForLocation(lat, lng),
       },
     });
 
@@ -110,8 +135,5 @@ export const useLocationStore = create((set, get) => ({
   setDuration: (v) => set({ duration: v }),
 
   // Computed
-  getPrice: () => {
-    const { pin, people, freq, duration } = get();
-    return calcPrice({ zone: pin.zone, people, freq, duration });
-  },
+  getPrice: () => get().pin.price,
 }));
