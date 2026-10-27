@@ -63,7 +63,7 @@ const en = {
       primaryTitle: "Daily Tiffin Service",
       primaryMeals: "Lunch & Dinner",
       primaryDesc:
-        "Regular wholesome meals for students, IT professionals, bachelors, and elderly families. Warm handmade phulkas, home-churned dal, light seasonal sabzi, and fragrant rice. Transparent monthly & daily plans without long lock-ins.",
+        "Regular wholesome meals for students, IT professionals, bachelors, and elderly families. Warm handmade chapati, home-churned dal, light seasonal sabzi, and fragrant rice. Transparent monthly & daily plans without long lock-ins.",
       f1: "Low-oil preparation",
       f2: "Custom spice levels",
       f3: "Pause / Resume flexibly",
@@ -71,7 +71,7 @@ const en = {
       cateringTag: "Advance Booking",
       cateringImgAlt: "Catering",
       cateringTitle: "Catering Services",
-      cateringPax: "15 to 150 Pax",
+      cateringPax: "15 to 50 Pax",
       cateringDesc:
         "Food for housewarmings, birthday celebrations, poojas, and weekend gatherings. Warm, authentic party spreads with genuine mother's hand touch.",
       c1: "Bespoke Indian menus (North & South)",
@@ -95,31 +95,19 @@ const en = {
       regular: {
         tag: "Frequently Served",
         title: "Regular Vegetarian Thali",
-        desc: "3 Handcrafted Phulkas, Dal Tadka, Seasonal Daily Sabzi, Steamed Rice, Fresh Kachumber Salad & Lemon.",
+        desc: "3 Regular Chapati, Dal Tadka, Seasonal Daily Sabzi,Rice",
         badge: "Balanced Everyday Nutrition",
       },
-      sunday: {
-        tag: "Weekend Special",
-        title: "Special Sunday Thali",
-        desc: "Rich Shahi Paneer, Hot Poori or Methi Paratha, Dal Makhani, Peas Pulao, and warm Gulab Jamun.",
-        badge: "Festive Weekend Treat",
-      },
-      dalrice: {
-        tag: "Daily Favorite",
-        title: "Dal-Rice Comfort Meal",
-        desc: "Homestyle Yellow Arhar Dal tempered with pure cow ghee & hing, Jeera Rice, roasted papad & pickle.",
-        badge: "Light & Soothing",
-      },
-      paratha: {
-        tag: "Breakfast & Tiffin",
-        title: "Stuffed Paratha Box",
-        desc: "2 Aloo / Gobhi / Paneer Parathas with creamy set curd, fresh butter and spicy lime pickle.",
-        badge: "Morning & Lunch",
+      thursday: {
+        tag: "Thursday Special",
+        title: "Special Thursday Thali",
+        desc: "3 Regular Chapati,Seasonal Sabzi,Pulao, and one sweet.",
+        badge: "Thursday Treat",
       },
       sabzi: {
         tag: "Availability Varies",
         title: "Homestyle Seasonal Sabzi",
-        desc: "Daily rotations: Bhindi Masala, Aloo Gobhi Adraki, Methi Matar Malai, or Lauki Chana Dal.",
+        desc: "Daily rotations: Bhindi Masala, Aloo Sabzi, Masoor dal, or Lauki Chana Dal.",
         badge: "100% Market-Fresh Daily",
       },
     },
@@ -253,9 +241,9 @@ const en = {
     origin: {
       badge: "Our Origin Story",
       title: "Started from Sudha Tai's Kitchen in Kothrud",
-      p1: "In 2016, Sudha Tai — a homemaker with 30 years of cooking for her large joint family in Kothrud — began making tiffins for 5 students who had moved to Pune from small towns. They missed the taste of home-cooked dal, soft phulkas, and the fragrance of Goda Masala bhaji.",
+      p1: "In 2025, Sudha Tai — a homemaker with 30 years of cooking for her large joint family in Kothrud — began making tiffins for 5 students who had moved to Pune from small towns. They missed the taste of home-cooked dal, soft phulkas, and the fragrance of Goda Masala bhaji.",
       p2: "Word spread quickly. Within a year, 50 families and working professionals were relying on Sudha Tai's kitchen for their daily meals. No restaurant could replicate the care that went into each stainless steel dabba — the perfectly balanced Katachi Amti, the warm Puran Poli on Sundays, the fiery Thecha alongside Zunka Bhakar on rainy days.",
-      p3: "Today, Swami Om Tiffin Services prepares over 1,200 meals a day — but every meal still carries that same kitchen warmth, the same fresh ingredients, and the same commitment that Sudha Tai started with in her small home kitchen on Paud Road.",
+      p3: "Today, Swami Om Tiffin Services prepares over 100 meals a day — but every meal still carries that same kitchen warmth, the same fresh ingredients, and the same commitment that Sudha Tai started with in her small home kitchen on Paud Road.",
       imgAlt: "Authentic Maharashtrian meal spread",
       quote:
         "“आईच्या हातचं जेवण” — taste of mother's home cooking, delivered to your door.",
@@ -288,30 +276,7 @@ const en = {
         desc: "We remember your preferences, pause your subscription when you travel, and adjust spice levels on request — because you're not a customer, you're family.",
       },
     },
-    timeline: {
-      badge: "Our Journey",
-      title: "8 Years of Growth in Pune",
-      m1: {
-        label: "Founded in Kothrud",
-        desc: "Started with 5 tiffin subscriptions to neighbors",
-      },
-      m2: {
-        label: "50+ daily subscribers",
-        desc: "Expanded delivery across Kothrud & Karve Nagar",
-      },
-      m3: {
-        label: "Community Support",
-        desc: "Served 300+ families through the pandemic with home delivery",
-      },
-      m4: {
-        label: "Catering Launch",
-        desc: "Added corporate office lunch catering to IT parks",
-      },
-      m5: {
-        label: "1,200+ Daily Meals",
-        desc: "Serving 1,200+ meals daily across 15+ Pune localities",
-      },
-    },
+    
     team: {
       badge: "Meet the People Behind Every Meal",
       title: "Our Dedicated Team",
@@ -332,6 +297,12 @@ const en = {
         role: "Catering & Events Coordinator",
         initials: "PT",
         bio: "Priya handles all catering enquiries, manages special event menus, and ensures every family function we cater for feels like a personal celebration.",
+      },
+      t4: {
+        name: "Swami Om",
+        role: "Owner",
+        initials: "SO",
+        bio: "The owner of Swami Om Tiffin Service, dedicated to bringing fresh, homestyle vegetarian meals and personal care to every customer.",
       },
     },
     cta: {
@@ -599,7 +570,7 @@ const mr = {
       primaryTitle: "रोजची डबा सेवा",
       primaryMeals: "दुपारचे व रात्रीचे जेवण",
       primaryDesc:
-        "विद्यार्थी, आयटी व्यावसायिक, एकटे राहणारे आणि ज्येष्ठ कुटुंबांसाठी रोजचे पौष्टिक जेवण. गरमागरम हाताच्या फुलक्या, घरी बनवलेले वरण, हलकी हंगामी भाजी आणि सुगंधी भात. दीर्घ बंधनांशिवाय पारदर्शक मासिक व दैनिक योजना.",
+        "विद्यार्थी, आयटी व्यावसायिक, एकटे राहणारे आणि ज्येष्ठ कुटुंबांसाठी रोजचे पौष्टिक जेवण. गरमागरम हाताच्या चपाती, घरी बनवलेले वरण, हलकी हंगामी भाजी आणि सुगंधी भात. दीर्घ बंधनांशिवाय पारदर्शक मासिक व दैनिक योजना.",
       f1: "कमी तेलात बनवलेले",
       f2: "तिखटपणा तुमच्या आवडीनुसार",
       f3: "सुट्टी घेणे / पुन्हा सुरू करणे सोपे",
@@ -607,7 +578,7 @@ const mr = {
       cateringTag: "आगाऊ नोंदणी",
       cateringImgAlt: "केटरिंग",
       cateringTitle: "केटरिंग सेवा",
-      cateringPax: "15 ते 150 व्यक्ती",
+      cateringPax: "15 ते 50 व्यक्ती",
       cateringDesc:
         "गृहप्रवेश, वाढदिवस, पूजा आणि वीकेंडच्या कार्यक्रमांसाठी जेवण. आईच्या हातच्या खऱ्या चवीसह गरम, अस्सल पार्टी मेन्यू.",
       c1: "तुमच्या आवडीनुसार भारतीय मेन्यू (उत्तर व दक्षिण)",
@@ -631,31 +602,19 @@ const mr = {
       regular: {
         tag: "नेहमी बनणारी",
         title: "साधी शाकाहारी थाळी",
-        desc: "3 हाताच्या फुलक्या, डाळ तडका, रोजची हंगामी भाजी, वाफवलेला भात, ताजी कचुंबर कोशिंबीर आणि लिंबू.",
+        desc: "3 साध्या चपाती, डाळ तडका, रोजची हंगामी भाजी आणि भात.",
         badge: "रोजचे संतुलित पोषण",
       },
-      sunday: {
-        tag: "वीकेंड स्पेशल",
-        title: "खास रविवार थाळी",
-        desc: "शाही पनीर, गरम पुरी किंवा मेथी पराठा, दाल मखनी, मटार पुलाव आणि गरमागरम गुलाबजाम.",
-        badge: "सणासुदीची वीकेंड मेजवानी",
-      },
-      dalrice: {
-        tag: "रोजची आवडती",
-        title: "वरण-भात आरामदायी जेवण",
-        desc: "शुद्ध गायीचे तूप आणि हिंगाची फोडणी दिलेली घरगुती पिवळी तुरीची डाळ, जिरा राइस, भाजलेला पापड आणि लोणचे.",
-        badge: "हलके आणि सुखद",
-      },
-      paratha: {
-        tag: "नाश्ता आणि डबा",
-        title: "भरलेल्या पराठ्यांचा डबा",
-        desc: "2 आलू / गोबी / पनीर पराठे, सोबत घट्ट दही, ताजे लोणी आणि तिखट लिंबाचे लोणचे.",
-        badge: "सकाळ आणि दुपारसाठी",
+      thursday: {
+        tag: "गुरुवार स्पेशल",
+        title: "खास गुरुवार थाळी",
+        desc: "3 साध्या चपाती, हंगामी भाजी, पुलाव आणि एक गोड पदार्थ.",
+        badge: "गुरुवारची मेजवानी",
       },
       sabzi: {
         tag: "उपलब्धता बदलते",
         title: "घरगुती हंगामी भाजी",
-        desc: "रोज बदलत्या भाज्या: भेंडी मसाला, आलू गोबी अद्रकी, मेथी मटार मलई किंवा दुधी चणा डाळ.",
+        desc: "रोज बदलणारे पदार्थ: भेंडी मसाला, बटाट्याची भाजी, मसूर डाळ किंवा दुधी-चना डाळ.",
         badge: "100% रोज बाजारातून ताजे",
       },
     },
@@ -790,7 +749,7 @@ const mr = {
     origin: {
       badge: "आमची सुरुवात",
       title: "कोथरूडमध्ये सुधा ताईंच्या स्वयंपाकघरातून सुरू झालं",
-      p1: "2016 मध्ये, कोथरूडमध्ये आपल्या मोठ्या एकत्र कुटुंबासाठी 30 वर्षे स्वयंपाक करणाऱ्या गृहिणी सुधा ताईंनी, लहान गावांतून पुण्यात आलेल्या 5 विद्यार्थ्यांसाठी डबे बनवायला सुरुवात केली. त्यांना घरच्या वरणाची, मऊ फुलक्यांची आणि गोडा मसाल्याच्या भाजीच्या सुगंधाची आठवण येत होती.",
+      p1: "2016 मध्ये, कोथरूडमध्ये आपल्या मोठ्या एकत्र कुटुंबासाठी 30 वर्षे स्वयंपाक करणाऱ्या गृहिणी सुधा ताईंनी, लहान गावांतून पुण्यात आलेल्या 5 विद्यार्थ्यांसाठी डबे बनवायला सुरुवात केली. त्यांना घरच्या वरणाची, मऊ चपातींची आणि गोडा मसाल्याच्या भाजीच्या सुगंधाची आठवण येत होती.",
       p2: "बातमी झपाट्याने पसरली. वर्षभरातच 50 कुटुंबे आणि नोकरदार लोक रोजच्या जेवणासाठी सुधा ताईंच्या स्वयंपाकघरावर अवलंबून होते. प्रत्येक स्टीलच्या डब्यात जी काळजी असायची ती कोणतंही हॉटेल देऊ शकत नव्हतं — बरोबर जमलेली कटाची आमटी, रविवारची गरम पुरणपोळी आणि पावसाळ्याच्या दिवसांत झुणका भाकरीसोबत झणझणीत ठेचा.",
       p3: "आज स्वामी ओम टिफिन सर्व्हिसेस रोज 1,200 हून अधिक जेवणे तयार करते — पण प्रत्येक जेवणात तीच स्वयंपाकघराची उब, तीच ताजी सामग्री आणि सुधा ताईंनी पौड रोडवरील त्यांच्या छोट्या घरगुती स्वयंपाकघरात सुरू केलेली तीच निष्ठा आजही आहे.",
       imgAlt: "अस्सल महाराष्ट्रीयन जेवणाची थाळी",
@@ -810,7 +769,7 @@ const mr = {
       },
       v3: {
         title: "घरच्यासारखा स्वयंपाक",
-        desc: "आमचे स्वयंपाकघर पुण्यातील पारंपरिक घरांत वापरल्या जाणाऱ्या त्याच पाककृती पाळते — मंद आचेवर शिजवलेली कटाची आमटी, मऊ हाताच्या फुलक्या आणि हंगामी भाज्या.",
+        desc: "आमचे स्वयंपाकघर पुण्यातील पारंपरिक घरांत वापरल्या जाणाऱ्या त्याच पाककृती पाळते — मंद आचेवर शिजवलेली कटाची आमटी, मऊ हाताच्या चपाती आणि हंगामी भाज्या.",
       },
       v4: {
         title: "प्रत्येक जेवण ताजे",
@@ -869,6 +828,12 @@ const mr = {
         role: "केटरिंग आणि इव्हेंट समन्वयक",
         initials: "प्रि",
         bio: "प्रिया सर्व केटरिंग चौकशा हाताळतात, खास कार्यक्रमांचे मेन्यू ठरवतात आणि आम्ही केटरिंग केलेला प्रत्येक कौटुंबिक सोहळा वैयक्तिक उत्सवासारखा वाटेल याची काळजी घेतात.",
+      },
+      t4: {
+        name: "स्वामी ओम",
+        role: "मालक",
+        initials: "स्वो",
+        bio: "स्वामी ओम टिफिन सर्व्हिसचे मालक, प्रत्येक ग्राहकाला ताजे, घरगुती शाकाहारी जेवण आणि आपुलकीची सेवा देण्यासाठी समर्पित.",
       },
     },
     cta: {

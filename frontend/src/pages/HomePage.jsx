@@ -11,22 +11,10 @@ const DISHES = [
     badgeClass: "bg-secondary-container/20 text-secondary",
   },
   {
-    key: "sunday",
+    key: "thursday",
     tagClass: "bg-primary-container text-white",
     img: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600&q=80",
     badgeClass: "bg-primary/8 text-primary",
-  },
-  {
-    key: "dalrice",
-    tagClass: "bg-secondary text-white",
-    img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80",
-    badgeClass: "bg-secondary-container/20 text-secondary",
-  },
-  {
-    key: "paratha",
-    tagClass: "bg-on-surface-variant text-white",
-    img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&q=80",
-    badgeClass: "bg-surface-container-highest text-on-surface-variant",
   },
   {
     key: "sabzi",
@@ -90,7 +78,7 @@ export default function HomePage() {
             <h1 className="mb-4 mt-4 font-heading text-[clamp(32px,5vw,52px)] font-bold leading-[1.1] tracking-[-0.02em] text-on-surface">
               {t("home.hero.title1")}
               <br />
-              <span className="italic text-primary-container">
+              <span className="mt-4 block italic text-primary-container">
                 {t("home.hero.title2")}
               </span>
             </h1>
@@ -306,14 +294,7 @@ export default function HomePage() {
                       {t(`home.dishes.${dish.key}.badge`)}
                     </span>
                   </div>
-                  <div className="px-4 pb-4">
-                    <Link
-                      to="/enquiry"
-                      className="block rounded-full border-[1.5px] border-outline-variant py-[9px] text-center text-[12.5px] font-semibold text-primary no-underline transition hover:border-primary-container hover:bg-primary-container hover:text-white"
-                    >
-                      {t("home.dishes.request")}
-                    </Link>
-                  </div>
+                  
                 </Card>
               );
             })}

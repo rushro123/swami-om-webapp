@@ -48,7 +48,7 @@ export default function Footer() {
           <div>
             <div style={s.brand}>
               <img
-                src="/Gemini_Generated_Image_rxijsrrxijsrrxij.png"
+                src="/Gemini_Generated_Image_rxijsrrxijsrrxij.svg"
                 alt="Logo"
                 style={{ height: 40, width: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid #ffdbd0' }}
               />
@@ -76,13 +76,14 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <div style={s.colTitle}>Contact & Delivery</div>
-            <div style={s.contactRow}><span>📞</span><span>+91 98765 43210</span></div>
-            <div style={s.contactRow}><span>💬</span><span>WhatsApp: +91 98765 43210</span></div>
+            <div style={s.contactRow}><span>📞</span><span>+91 97633 55563</span></div>
+            <div style={s.contactRow}><span>💬</span><span>WhatsApp: +91 97633 55563</span></div>
             <div style={s.contactRow}>
               <span>🕐</span>
               <span>Lunch: 11:30 AM – 2:30 PM<br/>Dinner: 7:00 PM – 10:00 PM</span>
             </div>
-            <div style={s.contactRow}><span>📍</span><span>Kothrud, Pune · Delivery within 12 km</span></div>
+            <div style={s.contactRow}><span>📍</span><span> Pirangut, Pune · Delivery within 7 km</span></div>
+            <div style={s.contactRow}><span>📍</span><span> Hadapsar, Pune · Delivery within 7 km</span></div>
           </div>
 
           {/* Disclaimer */}

@@ -11,8 +11,8 @@ import {
 /* ─────────────── static data (text lives in i18n.js) ─────────────── */
 
 const STATS = [
-  { val: "8+", key: "years" },
-  { val: "1,200+", key: "meals" },
+  { val: "1+", key: "years" },
+  { val: "100", key: "meals" },
   { val: "15+", key: "localities" },
   { val: "100%", key: "veg" },
 ];
@@ -30,6 +30,7 @@ const TEAM = [
   { key: "t1", color: "text-primary" },
   { key: "t2", color: "text-tertiary" },
   { key: "t3", color: "text-secondary" },
+  { key: "t4", color: "text-primary" },
 ];
 
 const MILESTONES = [

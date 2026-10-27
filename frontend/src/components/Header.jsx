@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { key: "nav.about", to: "/about" },
   { key: "nav.location", to: "/location" },
   { key: "nav.review", to: "/reviews" },
-  { key: "nav.menu", to: "/menu" },
+ 
 ];
 
 // Devanagari-capable stack so Marathi renders cleanly
@@ -54,11 +54,11 @@ export default function Header() {
           }}
         >
           <img
-            src="/Gemini_Generated_Image_rxijsrrxijsrrxij.png"
+            src="/Gemini_Generated_Image_rxijsrrxijsrrxij.svg"
             alt={t("nav.logoAlt")}
             style={{
-              height: 44,
-              width: 44,
+              height: 70,
+              width: 70,
               objectFit: "cover",
               borderRadius: "50%",
               border: "2px solid #ffdbd0",
