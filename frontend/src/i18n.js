@@ -30,13 +30,45 @@ const en = {
   // Pre-filled WhatsApp messages
   wa: {
     enquiry: "Hi Swami Om, I want to enquire about your tiffin service.",
+    formEnquiry:
+      "Hi Swami Om, I want to enquire about tiffin service.\nName: {{name}}\nContact: {{phone}}\nAddress: {{address}}\nPeople: {{people}}\nMeals: {{meals}}\nPlan: {{plan}}",
     menu: "Hi Swami Om, what is today's menu?",
+    cateringEnquiry:
+      "Hi Swami Om, I want to enquire about catering.\nName: {{name}}\nContact: {{phone}}\nAddress: {{address}}\nNumber of people: {{people}}\nFood type: {{foodType}}\nEvent date: {{date}}\nDescription: {{description}}",
     diet: "Hi Swami Om, I have a dietary requirement for my tiffin.",
     general: "Hi Swami Om, I would like to talk to you.",
   },
 
   /* ───────── HOME ───────── */
   home: {
+    cateringForm: {
+      title: "Catering Enquiry",
+      subtitle: "Share your event details and we will confirm your catering requirements.",
+      name: "Your name",
+      phone: "Contact number",
+      address: "Full event address",
+      people: "Number of people",
+      foodType: "Food preference",
+      foodTypes: {
+        veg: "Vegetarian",
+        nonVeg: "Non-vegetarian",
+        both: "Vegetarian and non-vegetarian",
+      },
+      date: "Event date",
+      description: "Event details and requirements",
+      descriptionPlaceholder: "Tell us about the event, menu, timing, or special requests.",
+      submit: "Submit Catering Enquiry",
+      close: "Close catering enquiry form",
+    },
+    enquiry: {
+      title: "Tiffin Service Enquiry",
+      subtitle: "Share your details and we will confirm availability on WhatsApp.",
+      name: "Your name",
+      phone: "Contact number",
+      address: "Full delivery address",
+      submit: "Submit to WhatsApp",
+      close: "Close enquiry form",
+    },
     hero: {
       badge: "🍲 Traditional Kitchen Warmth",
       title1: "Homemade Meals,",
@@ -241,10 +273,11 @@ const en = {
     },
     origin: {
       badge: "Our Origin Story",
-      title: "Started from Sudha Tai's Kitchen in Kothrud",
-      p1: "In 2025, Sudha Tai — a homemaker with 30 years of cooking for her large joint family in Kothrud — began making tiffins for 5 students who had moved to Pune from small towns. They missed the taste of home-cooked dal, soft phulkas, and the fragrance of Goda Masala bhaji.",
-      p2: "Word spread quickly. Within a year, 50 families and working professionals were relying on Sudha Tai's kitchen for their daily meals. No restaurant could replicate the care that went into each stainless steel dabba — the perfectly balanced Katachi Amti, the warm Puran Poli on Sundays, the fiery Thecha alongside Zunka Bhakar on rainy days.",
-      p3: "Today, Swami Om Tiffin Services prepares over 100 meals a day — but every meal still carries that same kitchen warmth, the same fresh ingredients, and the same commitment that Sudha Tai started with in her small home kitchen on Paud Road.",
+      title: "Started from VEDANG VIJAY SHINDE's MOTHER's Kitchen in Priangut",
+      p1: "In 2022, the mother and wife of Vedang Vijay Shinde, both homemakers, began preparing home-cooked meals for other households. People quickly recognized the taste and quality of their food, from delicious homemade dal and soft chapatis to the authentic aroma of Goda Masala bhaji.",
+      p2:"That same year, Vedang's sister moved to another city for her studies and began missing her mother's home-cooked meals. This inspired Vedang to come up with an idea: to provide fresh, homemade tiffin meals to students and working professionals living away from their hometowns, so they could enjoy the comforting taste of home wherever they were.", 
+      p3: "Word spread quickly. Within a year,More than 50 families and working professionals were relying on VEDANG VIJAY SHINDE's MOTHER'S kitchen for their daily meals. No restaurant could replicate the care that went into each stainless steel dabba.",
+      p4:"Today, Swami Om Tiffin Services prepares more than 100 meals a day — but every meal still carries that same kitchen warmth, the same fresh ingredients, and the same commitment that Sudha Tai started with in her small home kitchen on Priangut.",
       imgAlt: "Authentic Maharashtrian meal spread",
       quote:
         "“आईच्या हातचं जेवण” — taste of mother's home cooking, delivered to your door.",
@@ -300,7 +333,7 @@ const en = {
         bio: "Priya handles all catering enquiries, manages special event menus, and ensures every family function we cater for feels like a personal celebration.",
       },
       t4: {
-        name: "Swami Om",
+        name: "Vedang Vijay Shinde",
         role: "Owner",
         initials: "SO",
         bio: "The owner of Swami Om Tiffin Service, dedicated to bringing fresh, homestyle vegetarian and non-vegetarian meals with personal care to every customer.",
@@ -490,7 +523,11 @@ const mr = {
 
   wa: {
     enquiry: "नमस्कार स्वामी ओम, मला तुमच्या डबा सेवेबद्दल चौकशी करायची आहे.",
+    formEnquiry:
+      "नमस्कार स्वामी ओम, मला डबा सेवेबद्दल चौकशी करायची आहे.\nनाव: {{name}}\nसंपर्क: {{phone}}\nपत्ता: {{address}}\nव्यक्ती: {{people}}\nजेवण: {{meals}}\nयोजना: {{plan}}",
     menu: "नमस्कार स्वामी ओम, आजचा मेन्यू काय आहे?",
+    cateringEnquiry:
+      "नमस्कार स्वामी ओम, मला केटरिंगबद्दल चौकशी करायची आहे.\nनाव: {{name}}\nसंपर्क: {{phone}}\nपत्ता: {{address}}\nव्यक्ती संख्या: {{people}}\nजेवणाचा प्रकार: {{foodType}}\nकार्यक्रमाची तारीख: {{date}}\nतपशील: {{description}}",
     diet: "नमस्कार स्वामी ओम, माझ्या डब्यासाठी मला आहारविषयक विशेष गरज आहे.",
     general: "नमस्कार स्वामी ओम, मला तुमच्याशी बोलायचे आहे.",
   },
@@ -548,6 +585,34 @@ const mr = {
 
   /* ───────── HOME ───────── */
   home: {
+    cateringForm: {
+      title: "केटरिंग चौकशी",
+      subtitle: "कार्यक्रमाची माहिती द्या आणि आम्ही तुमच्या केटरिंगची गरज कळवू.",
+      name: "तुमचे नाव",
+      phone: "संपर्क क्रमांक",
+      address: "कार्यक्रमाचा पूर्ण पत्ता",
+      people: "व्यक्ती संख्या",
+      foodType: "जेवणाची पसंती",
+      foodTypes: {
+        veg: "शाकाहारी",
+        nonVeg: "मांसाहारी",
+        both: "शाकाहारी आणि मांसाहारी",
+      },
+      date: "कार्यक्रमाची तारीख",
+      description: "कार्यक्रमाचे तपशील आणि गरजा",
+      descriptionPlaceholder: "कार्यक्रम, मेन्यू, वेळ किंवा खास विनंतीबद्दल सांगा.",
+      submit: "केटरिंग चौकशी पाठवा",
+      close: "केटरिंग चौकशी फॉर्म बंद करा",
+    },
+    enquiry: {
+      title: "डबा सेवा चौकशी",
+      subtitle: "तुमची माहिती द्या आणि आम्ही व्हॉट्सअ‍ॅपवर उपलब्धता कळवू.",
+      name: "तुमचे नाव",
+      phone: "संपर्क क्रमांक",
+      address: "पूर्ण डिलिव्हरी पत्ता",
+      submit: "व्हॉट्सअ‍ॅपवर पाठवा",
+      close: "चौकशी फॉर्म बंद करा",
+    },
     hero: {
       badge: "🍲 पारंपरिक स्वयंपाकघराची उब",
       title1: "घरगुती जेवण,",
@@ -748,15 +813,16 @@ const mr = {
     },
     hero: {
       badge: "🍲 आमची कहाणी आणि मूल्ये",
-      title: "स्वामी ओम टिफिन सर्व्हिसेसबद्दल",
-      desc: "पिरंगुटच्या एका स्वयंपाकघरात जन्म घेतलेली, अनेक दशकांच्या महाराष्ट्रीयन पाककला परंपरेवर उभी राहिलेली आणि एका विश्वासावर चालणारी — कितीही दूर आलात तरी प्रत्येकाला घरी असल्यासारखं जेवण मिळायला हवं.",
+      title: "स्वामी ओम टिफिन सेवांबद्दल",
+      desc: "पिरंगुटच्या एका स्वयंपाकघरातून सुरू झालेली, अनेक दशकांच्या महाराष्ट्रीयन पाककला परंपरेवर उभी असलेली आणि एका विश्वासाने प्रेरित — माणूस कितीही दूर गेला तरी त्याला घरच्यासारखं जेवण मिळायला हवं.",
     },
     origin: {
       badge: "आमची सुरुवात",
-      title: "कोथरूडमध्ये सुधा ताईंच्या स्वयंपाकघरातून सुरू झालं",
-      p1: "2016 मध्ये, कोथरूडमध्ये आपल्या मोठ्या एकत्र कुटुंबासाठी 30 वर्षे स्वयंपाक करणाऱ्या गृहिणी सुधा ताईंनी, लहान गावांतून पुण्यात आलेल्या 5 विद्यार्थ्यांसाठी डबे बनवायला सुरुवात केली. त्यांना घरच्या वरणाची, मऊ चपातींची आणि गोडा मसाल्याच्या भाजीच्या सुगंधाची आठवण येत होती.",
-      p2: "बातमी झपाट्याने पसरली. वर्षभरातच 50 कुटुंबे आणि नोकरदार लोक रोजच्या जेवणासाठी सुधा ताईंच्या स्वयंपाकघरावर अवलंबून होते. प्रत्येक स्टीलच्या डब्यात जी काळजी असायची ती कोणतंही हॉटेल देऊ शकत नव्हतं — बरोबर जमलेली कटाची आमटी, रविवारची गरम पुरणपोळी आणि पावसाळ्याच्या दिवसांत झुणका भाकरीसोबत झणझणीत ठेचा.",
-      p3: "आज स्वामी ओम टिफिन सर्व्हिसेस रोज 1,200 हून अधिक जेवणे तयार करते — पण प्रत्येक जेवणात तीच स्वयंपाकघराची उब, तीच ताजी सामग्री आणि सुधा ताईंनी पौड रोडवरील त्यांच्या छोट्या घरगुती स्वयंपाकघरात सुरू केलेली तीच निष्ठा आजही आहे.",
+      title: "वेदांग विजय शिंदे यांच्या आई आणि पत्नीच्या पिरंगुटमधील स्वयंपाकघरातून सुरू झालेली वाटचाल",
+      p1: "2022 मध्ये वेदांग विजय शिंदे यांच्या आई आणि पत्नी या दोघीही गृहिणींनी इतर कुटुंबांसाठी घरगुती जेवण बनवायला सुरुवात केली. चविष्ट घरगुती वरण, मऊ चपाती आणि अस्सल गोडा मसाल्याच्या भाजीचा सुगंध यामुळे लोकांनी त्यांच्या जेवणाची चव आणि गुणवत्ता लगेच ओळखली.",
+      p2: "त्याच वर्षी वेदांग यांची बहीण शिक्षणासाठी दुसऱ्या शहरात गेली आणि तिला आईच्या हातच्या जेवणाची आठवण येऊ लागली. यामुळे वेदांग यांना एक कल्पना सुचली — घरापासून दूर राहणाऱ्या विद्यार्थी आणि नोकरदारांसाठी ताजे, घरगुती डबे पोहोचवायचे, जेणेकरून ते कुठेही असले तरी घरच्या जेवणाची समाधान देणारी चव घेऊ शकतील.",
+      p3: "ही बातमी वेगाने पसरली. एका वर्षातच 50 हून अधिक कुटुंबे आणि नोकरदार रोजच्या जेवणासाठी वेदांग विजय शिंदे यांच्या आईच्या स्वयंपाकघरावर अवलंबून राहू लागले. प्रत्येक स्टीलच्या डब्यात घेतलेली काळजी कोणतेही रेस्टॉरंट देऊ शकत नव्हते.",
+      p4: "आज स्वामी ओम टिफिन सर्व्हिसेस दररोज 100 हून अधिक जेवणे तयार करते — पण प्रत्येक जेवणात अजूनही तीच स्वयंपाकघराची उब, ताजे साहित्य आणि पिरंगुटमधील छोट्या घरगुती स्वयंपाकघरातून सुरू झालेली तीच बांधिलकी आहे.",
       imgAlt: "अस्सल महाराष्ट्रीयन जेवणाची थाळी",
       quote:
         "“आईच्या हातचं जेवण” — आईच्या हातच्या स्वयंपाकाची चव, थेट तुमच्या दारापर्यंत.",
@@ -791,26 +857,26 @@ const mr = {
     },
     timeline: {
       badge: "आमचा प्रवास",
-      title: "पुण्यातील 8 वर्षांची वाटचाल",
+      title: "पुण्यातील आमची वाटचाल",
       m1: {
-        label: "कोथरूडमध्ये स्थापना",
-        desc: "शेजाऱ्यांसाठी 5 डब्यांच्या सबस्क्रिप्शनने सुरुवात",
+        label: "पिरंगुटमध्ये सुरुवात",
+        desc: "इतर कुटुंबांसाठी घरगुती जेवण बनवण्यास सुरुवात",
       },
       m2: {
-        label: "50+ रोजचे ग्राहक",
-        desc: "कोथरूड आणि कर्वे नगरमध्ये डिलिव्हरीचा विस्तार",
+        label: "घरगुती डब्यांची मागणी वाढली",
+        desc: "विद्यार्थी आणि नोकरदारांसाठी डिलिव्हरी सुरू केली",
       },
       m3: {
-        label: "समाजासाठी आधार",
-        desc: "महामारीच्या काळात 300+ कुटुंबांना घरपोच जेवण दिले",
+        label: "50+ कुटुंबांचा विश्वास",
+        desc: "कुटुंबे आणि नोकरदार रोजच्या जेवणासाठी जोडले गेले",
       },
       m4: {
-        label: "केटरिंगची सुरुवात",
-        desc: "आयटी पार्क्समधील कॉर्पोरेट ऑफिस लंच केटरिंग सुरू केले",
+        label: "केटरिंग सेवेची सुरुवात",
+        desc: "कार्यक्रम आणि विशेष प्रसंगांसाठी जेवण देण्यास सुरुवात",
       },
       m5: {
-        label: "रोज 1,200+ जेवणे",
-        desc: "पुण्यातील 15+ परिसरांमध्ये रोज 1,200+ जेवणे",
+        label: "दररोज 100+ जेवणे",
+        desc: "पुण्यातील अनेक परिसरांमध्ये घरगुती जेवणाची सेवा",
       },
     },
     team: {
@@ -835,7 +901,7 @@ const mr = {
         bio: "प्रिया सर्व केटरिंग चौकशा हाताळतात, खास कार्यक्रमांचे मेन्यू ठरवतात आणि आम्ही केटरिंग केलेला प्रत्येक कौटुंबिक सोहळा वैयक्तिक उत्सवासारखा वाटेल याची काळजी घेतात.",
       },
       t4: {
-        name: "स्वामी ओम",
+        name: "वेदांग विजय शिंदे",
         role: "मालक",
         initials: "स्वो",
         bio: "स्वामी ओम टिफिन सर्व्हिसचे मालक, प्रत्येक ग्राहकाला ताजे, घरगुती शाकाहारी आणि मांसाहारी जेवण तसेच आपुलकीची सेवा देण्यासाठी समर्पित.",

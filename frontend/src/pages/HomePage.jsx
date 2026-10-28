@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Badge, Btn, Card, Reveal, waLink } from "../components/ui";
+import TiffinEnquiryForm from "../components/TiffinEnquiryForm";
+import CateringEnquiryForm from "../components/CateringEnquiryForm";
 
 /* ─────────────── static data (text lives in i18n.js) ─────────────── */
 const DISHES = [
@@ -59,6 +62,8 @@ const H2 =
 /* ─────────────── page ─────────────── */
 export default function HomePage() {
   const { t } = useTranslation();
+  const [enquiryOpen, setEnquiryOpen] = useState(false);
+  const [cateringOpen, setCateringOpen] = useState(false);
 
   return (
     // flex-1 keeps the footer at the bottom (your #root is a flex column)
@@ -176,7 +181,9 @@ export default function HomePage() {
                     </span>
                   ))}
                 </div>
-                <Btn to="/enquiry">{t("home.services.primaryCta")}</Btn>
+                <Btn onClick={() => setEnquiryOpen(true)}>
+                  {t("home.services.primaryCta")}
+                </Btn>
               </div>
             </Card>
 
@@ -219,7 +226,10 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <Btn to="/enquiry" variant="outline">
+                <Btn
+                  onClick={() => setCateringOpen(true)}
+                  variant="outline"
+                >
                   {t("home.services.cateringCta")}
                 </Btn>
               </div>
@@ -367,7 +377,9 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <Btn to="/enquiry">{t("home.how.ctaBtn")}</Btn>
+            <Btn onClick={() => setEnquiryOpen(true)}>
+              {t("home.how.ctaBtn")}
+            </Btn>
           </div>
         </Reveal>
       </section>
@@ -487,6 +499,14 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <TiffinEnquiryForm
+        open={enquiryOpen}
+        onClose={() => setEnquiryOpen(false)}
+      />
+      <CateringEnquiryForm
+        open={cateringOpen}
+        onClose={() => setCateringOpen(false)}
+      />
     </main>
   );
 }

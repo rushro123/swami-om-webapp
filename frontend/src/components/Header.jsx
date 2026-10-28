@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { WHATSAPP_NUMBER } from "./ui";
 
 // Only keys + routes here; the visible text comes from i18n.js
 const NAV_LINKS = [
@@ -132,7 +133,7 @@ export default function Header() {
 
         {/* WhatsApp CTA */}
         <a
-          href="https://wa.me/919876543210"
+          href={`https://wa.me/${WHATSAPP_NUMBER}`}
           target="_blank"
           rel="noopener noreferrer"
           style={{
@@ -237,7 +238,7 @@ export default function Header() {
           </div>
 
           <a
-            href="https://wa.me/919876543210"
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noopener noreferrer"
             style={{

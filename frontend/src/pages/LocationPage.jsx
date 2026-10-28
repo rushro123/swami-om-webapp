@@ -15,7 +15,11 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import PuneMap from "../components/PuneMap";
-import { KITCHENS, useLocationStore } from "../store/locationStore";
+import {
+  estimatePrice,
+  KITCHENS,
+  useLocationStore,
+} from "../store/locationStore";
 import { LOCALITIES } from "../data/localities";
 // ── Change these ──
 const WHATSAPP_NUMBER = "919763355563";
@@ -124,7 +128,7 @@ export default function LocationPage() {
     setQuery(pin.label);
   }, [pin.label]);
 
-  const price = pin.price;
+  const price = estimatePrice(pin.price, people, freq, duration);
   const zone = {
     ...ZONE_INFO[pin.zone],
     badge: t(`location.zone.${pin.zone}.badge`),

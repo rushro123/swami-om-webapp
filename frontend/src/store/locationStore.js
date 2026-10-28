@@ -63,6 +63,18 @@ function priceForLocation(lat, lng) {
   );
 }
 
+export function estimatePrice(monthlyLocationPrice, people, freq, duration) {
+  const mealsPerDay = freq === "both" ? 2 : 1;
+  const monthlyPrice = monthlyLocationPrice * people * mealsPerDay;
+  const durationFactor = {
+    trial: 1 / 30,
+    "15days": 15 / 30,
+    monthly: 1,
+  }[duration];
+
+  return Math.round(monthlyPrice * (durationFactor ?? 1));
+}
+
 // ── Zustand store ──
 export const useLocationStore = create((set, get) => ({
   // Selected pin on map
