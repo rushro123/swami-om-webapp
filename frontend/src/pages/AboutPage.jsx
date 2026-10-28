@@ -7,6 +7,12 @@ import {
   WhatsAppIcon,
   waLink,
 } from "../components/ui";
+import teamImage from "../assets/hero.png";
+import ownerImage from "../assets/owner.jpeg";
+import headcookImage from "../assets/headCook.jpeg"
+import coCook2 from "../assets/cook2.jpeg"
+import coCook3 from "../assets/cook3.jpeg"
+
 
 /* ─────────────── static data (text lives in i18n.js) ─────────────── */
 
@@ -27,10 +33,10 @@ const VALUES = [
 ];
 
 const TEAM = [
-  { key: "t1", color: "text-primary" },
-  { key: "t2", color: "text-tertiary" },
-  { key: "t3", color: "text-secondary" },
-  { key: "t4", color: "text-primary" },
+  { key: "t1", color: "text-primary", image: headcookImage },
+  { key: "t2", color: "text-tertiary", image: coCook2 },
+  { key: "t3", color: "text-secondary", image: coCook3 },
+  { key: "t4", color: "text-primary", image: ownerImage },
 ];
 
 const MILESTONES = [
@@ -177,11 +183,12 @@ export default function AboutPage() {
           <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-6">
             {TEAM.map((m) => (
               <Card key={m.key} className="px-6 py-8 text-center">
-                <div
-                  className={`mx-auto mb-4 flex size-[72px] items-center justify-center rounded-full bg-surface-container-highest font-heading text-[22px] font-extrabold shadow-[0_4px_12px_rgba(43,29,20,0.1)] ${m.color}`}
-                >
-                  {t(`about.team.${m.key}.initials`)}
-                </div>
+                <img
+                  src={m.image}
+                  alt={t(`about.team.${m.key}.name`)}
+                  loading="lazy"
+                  className="mx-auto mb-4 size-[120px] rounded-full bg-surface-container-highest object-contain p-1 shadow-[0_4px_12px_rgba(43,29,20,0.1)]"
+                />
                 <h3 className="mb-1 font-heading text-[17px] font-bold text-on-surface">
                   {t(`about.team.${m.key}.name`)}
                 </h3>
@@ -190,9 +197,6 @@ export default function AboutPage() {
                 >
                   {t(`about.team.${m.key}.role`)}
                 </span>
-                <p className="m-0 text-[13px] leading-[1.65] text-on-surface-variant">
-                  {t(`about.team.${m.key}.bio`)}
-                </p>
               </Card>
             ))}
           </div>

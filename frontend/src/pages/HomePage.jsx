@@ -25,6 +25,12 @@ const DISHES = [
     img: "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&q=80",
     badgeClass: "bg-secondary-container/20 text-secondary",
   },
+  {
+    key: "sunday",
+    tagClass: "bg-primary-container text-white",
+    img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80",
+    badgeClass: "bg-primary/8 text-primary",
+  },
 ];
 
 const PILLARS = [
@@ -309,25 +315,6 @@ export default function HomePage() {
               );
             })}
 
-            {/* Custom tiffin card */}
-            <div className="flex flex-col justify-between rounded-lg border border-outline-variant bg-linear-to-br from-primary-fixed to-surface-container-highest p-6">
-              <div>
-                <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-primary-container text-[22px]">
-                  🥣
-                </div>
-                <h3 className="mb-2 font-heading text-base font-bold text-on-surface">
-                  {t("home.dishes.customTitle")}
-                </h3>
-                <p className="text-[12.5px] leading-[1.6] text-on-surface-variant">
-                  {t("home.dishes.customDesc")}
-                </p>
-              </div>
-              <div className="mt-5">
-                <Btn href={waLink(t("wa.diet"))} size="xs">
-                  {t("home.dishes.customCta")}
-                </Btn>
-              </div>
-            </div>
           </div>
         </Reveal>
       </section>

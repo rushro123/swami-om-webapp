@@ -121,14 +121,10 @@ const en = {
       noticeBody:
         "Our kitchen runs strictly on seasonal bazaar sourcing without frozen preservatives. Contact us every morning by 10:00 AM to see today's curated lunch sabzis!",
       request: "Request in Plan",
-      customTitle: "Dietary Needs or Custom Tiffin?",
-      customDesc:
-        "Require Jain meals, diabetic-friendly low-carb rotis, or extra protein bowls? Just tell us your diet preferences.",
-      customCta: "Tell Us Your Preference →",
       regular: {
         tag: "Frequently Served",
-        title: "Regular Veg & Non-Veg Thali",
-        desc: "Fresh vegetarian and non-vegetarian thali options with chapati, dal, seasonal sabzi, rice, and rotating specials.",
+        title: "Regular Veg Thali",
+        desc: "Fresh vegetarian thali options with chapati, dal, seasonal sabzi, rice, and rotating specials.",
         badge: "Balanced Everyday Nutrition",
       },
       thursday: {
@@ -142,6 +138,12 @@ const en = {
         title: "Homestyle Seasonal Sabzi",
         desc: "Daily rotations: Bhindi Masala, Aloo Sabzi, Masoor dal, or Lauki Chana Dal.",
         badge: "100% Market-Fresh Daily",
+      },
+      sunday: {
+        tag: "Sunday Special",
+        title: "Special Sunday Non-Veg Thali",
+        desc: "A special non-vegetarian thali is available every Sunday exclusively for non-vegetarian customers.",
+        badge: "For Non-Veg Customers Only",
       },
     },
 
@@ -315,20 +317,20 @@ const en = {
       badge: "Meet the People Behind Every Meal",
       title: "Our Dedicated Team",
       t1: {
-        name: "Sudha Tai",
+        name: "Vishali Shinde",
         role: "Head Cook & Founder",
         initials: "ST",
         bio: "With 30+ years of home cooking experience in Kothrud, Sudha Tai started Swami Om to bring authentic Maharashtrian taste to working professionals and students who miss home-cooked food.",
       },
       t2: {
-        name: "Santosh Bhaiya",
-        role: "Delivery & Operations",
+        name: "Namrata tai",
+        role: "Co-Cook & Co-Founder",
         initials: "SB",
-        bio: "Managing timely dispatch across all Pune delivery routes since 2018. Santosh ensures your tiffin reaches you hot and on time, every single day.",
+        bio: "",
       },
       t3: {
-        name: "Priya Tai",
-        role: "Catering & Events Coordinator",
+        name: "Anamika Tai",
+        role: "Co-Cook & Co-Founder",
         initials: "PT",
         bio: "Priya handles all catering enquiries, manages special event menus, and ensures every family function we cater for feels like a personal celebration.",
       },
@@ -665,14 +667,10 @@ const mr = {
       noticeBody:
         "आमचे स्वयंपाकघर पूर्णपणे हंगामी बाजारातील भाज्यांवर चालते, गोठवलेले किंवा प्रिझर्वेटिव्ह वापरत नाही. आजच्या दुपारच्या भाज्या जाणून घेण्यासाठी रोज सकाळी 10:00 पर्यंत आम्हाला संपर्क करा!",
       request: "प्लॅनमध्ये मागवा",
-      customTitle: "आहारविषयक गरज किंवा खास डबा हवा आहे?",
-      customDesc:
-        "जैन जेवण, मधुमेहींसाठी कमी कार्बयुक्त पोळ्या किंवा अतिरिक्त प्रोटीन बाउल हवे आहेत? फक्त तुमच्या आहाराच्या आवडीनिवडी आम्हाला सांगा.",
-      customCta: "तुमची आवड सांगा →",
       regular: {
-        tag: "नेहमी बनणारी",
-        title: "शाकाहारी आणि मांसाहारी थाळी",
-        desc: "3 साध्या चपाती, डाळ तडका, रोजची हंगामी भाजी आणि भात.",
+        tag: "नियमित",
+        title: "नियमित शाकाहारी थाळी",
+        desc: "ताजी शाकाहारी थाळी, पोळी, डाळ, हंगामी भाजी, भात आणि बदलत्या विशेष पदार्थांसह.",
         badge: "रोजचे संतुलित पोषण",
       },
       thursday: {
@@ -686,6 +684,12 @@ const mr = {
         title: "घरगुती हंगामी भाजी",
         desc: "रोज बदलणारे पदार्थ: भेंडी मसाला, बटाट्याची भाजी, मसूर डाळ किंवा दुधी-चना डाळ.",
         badge: "100% रोज बाजारातून ताजे",
+      },
+      sunday: {
+        tag: "रविवार स्पेशल",
+        title: "खास रविवार मांसाहारी थाळी",
+        desc: "खास मांसाहारी थाळी दर रविवारी फक्त मांसाहारी ग्राहकांसाठी उपलब्ध आहे.",
+        badge: "फक्त मांसाहारी ग्राहकांसाठी",
       },
     },
 
