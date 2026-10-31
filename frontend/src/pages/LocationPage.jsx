@@ -4,7 +4,6 @@ import {
   LocateFixed,
   Sun,
   Moon,
-  BadgeCheck,
   ThumbsUp,
   ChefHat,
   Package,

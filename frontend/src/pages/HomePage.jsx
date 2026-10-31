@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Badge, Btn, Card, Reveal, waLink } from "../components/ui";
 import TiffinEnquiryForm from "../components/TiffinEnquiryForm";
 import CateringEnquiryForm from "../components/CateringEnquiryForm";
+import { startRender } from "../api/dummycall";
 
 /* ─────────────── static data (text lives in i18n.js) ─────────────── */
 const DISHES = [
@@ -87,6 +88,9 @@ export default function HomePage({ reviews = [] }) {
   const { t } = useTranslation();
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [cateringOpen, setCateringOpen] = useState(false);
+  useEffect(()=>{
+    startRender()
+  },[])
   const averageRating = reviews.length
     ? (
         reviews.reduce(

@@ -1,19 +1,4 @@
-// src/services/reviews.js
-import axios from "axios";
-
-// In dev, requests go through the Vite proxy (see vite.config.js), which avoids CORS.
-// In production builds, they go straight to VITE_API_URL.
-const baseURL = import.meta.env.DEV
-  ? ""
-  : (
-      import.meta.env.VITE_API_URL ||
-      "https://swamiomtiffinservicebackend.onrender.com"
-    ).replace(/\/$/, "");
-
-const api = axios.create({
-  baseURL,
-  timeout: 90000, // Render free tier can take ~60s to wake up
-});
+import { api } from "../api/axiosinstance";
 
 function explain(err) {
   console.error("API error:", err);
