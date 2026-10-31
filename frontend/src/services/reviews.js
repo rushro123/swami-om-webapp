@@ -25,10 +25,21 @@ function explain(err) {
 
 // Backend -> page shape
 function toPageReview(r, index) {
+  const firstName =
+    r.firstName ?? r.first_name ?? r.firstname ?? r.fname ?? "";
+  const lastName =
+    r.lastName ?? r.last_name ?? r.lastname ?? r.lname ?? "";
+  const name =
+    r.name ??
+    r.fullName ??
+    r.full_name ??
+    `${firstName} ${lastName}`.trim();
+
   return {
     id: r.id ?? `${r.email || "review"}-${index}`,
-    firstName: r.firstName || "",
-    lastName: r.lastName || "",
+    firstName,
+    lastName,
+    name,
     text: r.message || "",
     rating: Number(r.stars) || 0,
     date: r.createdAt,

@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import StarRating from "../components/StarRating";
 import { Badge, Btn, Card } from "../components/ui";
-import { addReview, getReviews } from "../services/reviews";
+import { addReview } from "../services/reviews";
 
 const EMPTY_FORM = {
   firstName: "",
@@ -19,6 +19,17 @@ function getReviewName(review) {
   return review.firstName || review.lastName
     ? `${review.firstName || ""} ${review.lastName || ""}`.trim()
     : review.name || "";
+}
+
+function getReviewInitials(review) {
+  const name = getReviewName(review);
+  const initials = name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("");
+  return initials || "?";
 }
 
 function formatDate(value, lang) {
@@ -49,36 +60,18 @@ function ReviewStars({ value }) {
   );
 }
 
-export default function Reviews() {
+export default function Reviews({
+  reviews,
+  setReviews,
+  loading,
+  loadError,
+}) {
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
-  const [reviews, setReviews] = useState([]);
   const [form, setForm] = useState(EMPTY_FORM);
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState(""); // form errors
-  const [loadError, setLoadError] = useState(""); // errors loading the list
-
-  // Load reviews once. Reviews don't depend on language, so no refetch on language switch.
-  useEffect(() => {
-    let active = true;
-    getReviews()
-      .then((items) => {
-        if (active) setReviews(Array.isArray(items) ? items : []);
-      })
-      .catch((err) => {
-        if (active) setLoadError(`${t("rev.fail")} (${err.message})`);
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-
-    return () => {
-      active = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const average = useMemo(() => {
     if (!reviews.length) return "—";
@@ -186,7 +179,7 @@ export default function Reviews() {
           ) : loadError && !reviews.length ? (
             <Card className="p-8 text-center">
               <p role="alert" className="text-sm text-on-error-container">
-                {loadError}
+                {t("rev.fail")} ({loadError})
               </p>
             </Card>
           ) : reviews.length ? (
@@ -196,7 +189,7 @@ export default function Reviews() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex min-w-0 items-center gap-3">
                       <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-lg font-bold text-primary">
-                        {getReviewName(review).charAt(0).toUpperCase()}
+                        {getReviewInitials(review)}
                       </div>
                       <div className="min-w-0">
                         <div className="truncate font-heading font-bold text-on-surface">
@@ -314,7 +307,7 @@ export default function Reviews() {
                 {notice}
               </p>
             )}
-            <Btn size="block" className="w-full" disabled={saving}>
+            <Btn type="submit" size="block" className="w-full" disabled={saving}>
               {saving ? t("rev.saving") : t("rev.submit")}
             </Btn>
           </form>

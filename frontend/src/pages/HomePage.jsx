@@ -66,10 +66,36 @@ const H2 =
   "font-heading text-[clamp(22px,3vw,30px)] font-bold tracking-[-0.01em] text-on-surface";
 
 /* ─────────────── page ─────────────── */
-export default function HomePage() {
+function getReviewName(review) {
+  return (
+    `${review.firstName || ""} ${review.lastName || ""}`.trim() ||
+    review.name ||
+    ""
+  );
+}
+
+function getReviewInitials(review) {
+  return getReviewName(review)
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("") || "?";
+}
+
+export default function HomePage({ reviews = [] }) {
   const { t } = useTranslation();
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [cateringOpen, setCateringOpen] = useState(false);
+  const averageRating = reviews.length
+    ? (
+        reviews.reduce(
+          (sum, review) => sum + Number(review.rating || 0),
+          0,
+        ) / reviews.length
+      ).toFixed(1)
+    : null;
+  const displayedReviews = reviews.length ? reviews.slice(0, 3) : REVIEWS;
 
   return (
     // flex-1 keeps the footer at the bottom (your #root is a flex column)
@@ -406,7 +432,9 @@ export default function HomePage() {
                   ★★★★★
                 </span>
                 <span className="font-heading text-[15px] font-bold text-on-surface">
-                  {t("home.reviews.rating")}
+                  {averageRating
+                    ? `${averageRating} / 5.0`
+                    : t("home.reviews.rating")}
                 </span>
                 <span className="text-[12.5px] text-on-surface-variant">
                   {t("home.reviews.regulars")}
@@ -428,36 +456,51 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
-            {REVIEWS.map((r) => (
-              <Card key={r.key} className="flex flex-col justify-between p-6">
-                <div>
-                  <span
-                    className="text-base text-amber-500"
-                    aria-label={t("home.reviews.stars")}
-                  >
-                    ★★★★★
-                  </span>
-                  <p className="mb-5 mt-3 text-[13.5px] italic leading-[1.75] text-on-surface">
-                    {t(`home.reviews.${r.key}.text`)}
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 border-t border-surface-container-highest pt-3.5">
-                  <div
-                    className={`flex size-10 shrink-0 items-center justify-center rounded-full bg-surface-container-highest font-heading text-base font-bold ${r.color}`}
-                  >
-                    {t(`home.reviews.${r.key}.initial`)}
-                  </div>
+            {displayedReviews.map((review) => {
+              const isLiveReview = !review.key;
+              const name = isLiveReview
+                ? getReviewName(review)
+                : t(`home.reviews.${review.key}.name`);
+              const text = isLiveReview
+                ? review.text
+                : t(`home.reviews.${review.key}.text`);
+              const rating = isLiveReview ? Number(review.rating) : 5;
+              return (
+                <Card
+                  key={review.id || review.key}
+                  className="flex flex-col justify-between p-6"
+                >
                   <div>
-                    <div className="text-[13px] font-bold text-on-surface">
-                      {t(`home.reviews.${r.key}.name`)}
+                    <span
+                      className="text-base text-amber-500"
+                      aria-label={t("home.reviews.stars")}
+                    >
+                      {"★".repeat(rating) + "☆".repeat(5 - rating)}
+                    </span>
+                    <p className="mb-5 mt-3 text-[13.5px] italic leading-[1.75] text-on-surface">
+                      {text}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 border-t border-surface-container-highest pt-3.5">
+                    <div
+                      className={`flex size-10 shrink-0 items-center justify-center rounded-full bg-surface-container-highest font-heading text-base font-bold ${isLiveReview ? "text-primary" : review.color}`}
+                    >
+                      {isLiveReview
+                        ? getReviewInitials(review)
+                        : t(`home.reviews.${review.key}.initial`)}
                     </div>
-                    <div className="text-[11.5px] text-on-surface-variant">
-                      {t(`home.reviews.${r.key}.sub`)}
+                    <div>
+                      <div className="text-[13px] font-bold text-on-surface">
+                        {name}
+                      </div>
+                      <div className="text-[11.5px] text-on-surface-variant">
+                        {isLiveReview ? "" : t(`home.reviews.${review.key}.sub`)}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </div>
         </Reveal>
       </section>

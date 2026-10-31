@@ -7,7 +7,6 @@ import {
   WhatsAppIcon,
   waLink,
 } from "../components/ui";
-import teamImage from "../assets/hero.png";
 import ownerImage from "../assets/owner.jpeg";
 import headcookImage from "../assets/headCook.jpeg"
 import coCook2 from "../assets/cook2.jpeg"

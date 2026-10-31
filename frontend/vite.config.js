@@ -7,12 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
-      "/getReviews": {
-        target: "https://swamiomtiffinservicebackend.onrender.com",
-        changeOrigin: true,
-        secure: true,
-      },
-      "/storeReview": {
+      "/api/review": {
         target: "https://swamiomtiffinservicebackend.onrender.com",
         changeOrigin: true,
         secure: true,
