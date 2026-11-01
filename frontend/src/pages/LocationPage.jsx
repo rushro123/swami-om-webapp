@@ -136,6 +136,9 @@ export default function LocationPage() {
   };
   const activeChip = LOCALITIES.find((l) => l.name === pin.label)?.name;
   const selectedLocationValue = `${pin.lat},${pin.lng}`;
+  const isPredefinedLocation =
+    KITCHENS.some((kitchen) => kitchen.lat === pin.lat && kitchen.lng === pin.lng) ||
+    LOCALITIES.some((locality) => locality.lat === pin.lat && locality.lng === pin.lng);
 
   const selectLocation = (value) => {
     const [lat, lng] = value.split(",").map(Number);
@@ -363,6 +366,11 @@ export default function LocationPage() {
               onChange={(e) => selectLocation(e.target.value)}
               className="mb-4 mt-2 w-full rounded-md bg-surface-container px-3.5 py-3 text-sm text-on-surface outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
             >
+              {!isPredefinedLocation && (
+                <option value={selectedLocationValue}>
+                  {pin.label}
+                </option>
+              )}
               {KITCHENS.map((kitchen) => (
                 <option
                   key={kitchen.id}

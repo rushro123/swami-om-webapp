@@ -88,9 +88,11 @@ export default function HomePage({ reviews = [] }) {
   const { t } = useTranslation();
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [cateringOpen, setCateringOpen] = useState(false);
-  useEffect(()=>{
-    startRender()
-  },[])
+  useEffect(() => {
+    startRender().catch((error) => {
+      console.error("Unable to start the backend render server.", error);
+    });
+  }, []);
   const averageRating = reviews.length
     ? (
         reviews.reduce(

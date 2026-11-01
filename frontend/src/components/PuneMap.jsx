@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, Circle, useMapEvents, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useTranslation } from 'react-i18next'
@@ -87,15 +87,6 @@ function createLocalityIcon(name, animated = false) {
   })
 }
 
-// ── Click handler component ──
-function ClickToPin() {
-  const setPin = useLocationStore(s => s.setPin)
-  useMapEvents({
-    click(e) { setPin(e.latlng.lat, e.latlng.lng) },
-  })
-  return null
-}
-
 // ── Recenter map smoothly when store pin changes ──
 function MapRecenter({ lat, lng, zoomIn }) {
   const map = useMap()
@@ -175,6 +166,11 @@ export default function PuneMap({ locations = [] }) {
         style={{ height: 440, width: '100%', cursor: 'crosshair' }}
         scrollWheelZoom
         zoomControl
+        eventHandlers={{
+          click: (event) => {
+            setPin(event.latlng.lat, event.latlng.lng)
+          },
+        }}
       >
         <FitCoverageLocations locations={locations} />
         <MapRecenter
@@ -280,8 +276,6 @@ export default function PuneMap({ locations = [] }) {
             </Popup>
           </Marker>
         )}
-
-        <ClickToPin />
       </MapContainer>
 
       {/* Overlay: zone legend */}

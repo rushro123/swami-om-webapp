@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import ReviewCard, { ReviewStars } from "../components/ReviewCard";
 import StarRating from "../components/StarRating";
 import { Badge, Btn, Card } from "../components/ui";
 import { addReview } from "../services/reviews";
@@ -14,51 +15,6 @@ const EMPTY_FORM = {
 
 const INPUT_CLASS =
   "mt-1.5 w-full rounded-md border border-outline-variant bg-white px-3.5 py-2.5 font-body text-sm font-normal outline-none transition focus:border-primary focus:ring-2 focus:ring-primary-fixed";
-
-function getReviewName(review) {
-  return review.firstName || review.lastName
-    ? `${review.firstName || ""} ${review.lastName || ""}`.trim()
-    : review.name || "";
-}
-
-function getReviewInitials(review) {
-  const name = getReviewName(review);
-  const initials = name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part.charAt(0).toUpperCase())
-    .join("");
-  return initials || "?";
-}
-
-function formatDate(value, lang) {
-  if (!value) return "";
-  try {
-    return new Intl.DateTimeFormat(lang === "mr" ? "mr-IN" : "en-IN", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }).format(new Date(value));
-  } catch {
-    return "";
-  }
-}
-
-function ReviewStars({ value }) {
-  return (
-    <div
-      className="flex gap-0.5 text-lg leading-none text-secondary"
-      aria-label={`${value} out of 5 stars`}
-    >
-      {[1, 2, 3, 4, 5].map((star) => (
-        <span key={star} aria-hidden="true">
-          {star <= value ? "★" : "☆"}
-        </span>
-      ))}
-    </div>
-  );
-}
 
 export default function Reviews({
   reviews,
@@ -185,27 +141,7 @@ export default function Reviews({
           ) : reviews.length ? (
             <div className="space-y-4">
               {reviews.map((review) => (
-                <Card key={review.id} className="p-5 sm:p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex min-w-0 items-center gap-3">
-                      <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-lg font-bold text-primary">
-                        {getReviewInitials(review)}
-                      </div>
-                      <div className="min-w-0">
-                        <div className="truncate font-heading font-bold text-on-surface">
-                          {getReviewName(review)}
-                        </div>
-                        <div className="text-xs text-on-surface-variant">
-                          {formatDate(review.date, lang)}
-                        </div>
-                      </div>
-                    </div>
-                    <ReviewStars value={Number(review.rating)} />
-                  </div>
-                  <p className="mt-2 whitespace-pre-wrap text-[13.5px] leading-6 text-on-surface-variant">
-                    {review.text}
-                  </p>
-                </Card>
+                <ReviewCard key={review.id} review={review} lang={lang} />
               ))}
             </div>
           ) : (

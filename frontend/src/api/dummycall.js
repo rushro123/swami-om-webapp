@@ -1,6 +1,7 @@
 import { api } from "./axiosinstance";
 
-export function startRender(){
-    const response=api.get("/api/render/startServer")
-    console.log(response.data)
+export async function startRender() {
+  const response = await api.get("/api/render/startServer");
+  console.log(response.data);
+  return response.data;
 }
