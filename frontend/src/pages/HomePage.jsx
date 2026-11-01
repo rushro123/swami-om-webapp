@@ -5,31 +5,37 @@ import { Badge, Btn, Card, Reveal, waLink } from "../components/ui";
 import TiffinEnquiryForm from "../components/TiffinEnquiryForm";
 import CateringEnquiryForm from "../components/CateringEnquiryForm";
 import { startRender } from "../api/dummycall";
+import catering_img from "../assets/catering_service_img.jpg";
+import head_img from "../assets/Rustic_Indian_Meal_by_the_Window.jpg";
 
+import img1 from "../assets/Rustic_Indian_tiffin.jpg";
+import img2 from "../assets/thursday_special_sweets.jpg";
+import img3 from "../assets/Rustic_Indian_Tiffin_sabji.jpg";
+import img4 from "../assets/non_veg_Indian Tiffin Feast.jpg";
 /* ─────────────── static data (text lives in i18n.js) ─────────────── */
 const DISHES = [
   {
     key: "regular",
     tagClass: "bg-secondary text-white",
-    img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80",
+    img: img1,
     badgeClass: "bg-secondary-container/20 text-secondary",
   },
   {
     key: "thursday",
     tagClass: "bg-primary-container text-white",
-    img: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600&q=80",
+    img: img2,
     badgeClass: "bg-primary/8 text-primary",
   },
   {
     key: "sabzi",
     tagClass: "bg-on-surface-variant text-white",
-    img: "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&q=80",
+    img: img3,
     badgeClass: "bg-secondary-container/20 text-secondary",
   },
   {
     key: "sunday",
     tagClass: "bg-primary-container text-white",
-    img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80",
+    img: img4,
     badgeClass: "bg-primary/8 text-primary",
   },
 ];
@@ -76,12 +82,14 @@ function getReviewName(review) {
 }
 
 function getReviewInitials(review) {
-  return getReviewName(review)
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part.charAt(0).toUpperCase())
-    .join("") || "?";
+  return (
+    getReviewName(review)
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join("") || "?"
+  );
 }
 
 export default function HomePage({ reviews = [] }) {
@@ -95,10 +103,8 @@ export default function HomePage({ reviews = [] }) {
   }, []);
   const averageRating = reviews.length
     ? (
-        reviews.reduce(
-          (sum, review) => sum + Number(review.rating || 0),
-          0,
-        ) / reviews.length
+        reviews.reduce((sum, review) => sum + Number(review.rating || 0), 0) /
+        reviews.length
       ).toFixed(1)
     : null;
   const displayedReviews = reviews.length ? reviews.slice(0, 3) : REVIEWS;
@@ -188,7 +194,7 @@ export default function HomePage({ reviews = [] }) {
             <Card className="group">
               <div className="relative h-[280px] overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&q=80"
+                  src={head_img}
                   alt={t("home.services.primaryImgAlt")}
                   className="size-full object-cover transition duration-500 group-hover:scale-105"
                 />
@@ -229,7 +235,7 @@ export default function HomePage({ reviews = [] }) {
             <Card className="group">
               <div className="relative h-[220px] overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80"
+                  src={catering_img}
                   alt={t("home.services.cateringImgAlt")}
                   className="size-full object-cover transition duration-500 group-hover:scale-105"
                 />
@@ -264,10 +270,7 @@ export default function HomePage({ reviews = [] }) {
                     </li>
                   ))}
                 </ul>
-                <Btn
-                  onClick={() => setCateringOpen(true)}
-                  variant="outline"
-                >
+                <Btn onClick={() => setCateringOpen(true)} variant="outline">
                   {t("home.services.cateringCta")}
                 </Btn>
               </div>
@@ -331,7 +334,6 @@ export default function HomePage({ reviews = [] }) {
                       <h3 className="font-heading text-[15px] font-semibold text-on-surface">
                         {title}
                       </h3>
-                      
                     </div>
                     <p className="mb-2.5 text-[12.5px] leading-[1.6] text-on-surface-variant">
                       {t(`home.dishes.${dish.key}.desc`)}
@@ -342,11 +344,9 @@ export default function HomePage({ reviews = [] }) {
                       {t(`home.dishes.${dish.key}.badge`)}
                     </span>
                   </div>
-                  
                 </Card>
               );
             })}
-
           </div>
         </Reveal>
       </section>
@@ -500,7 +500,9 @@ export default function HomePage({ reviews = [] }) {
                         {name}
                       </div>
                       <div className="text-[11.5px] text-on-surface-variant">
-                        {isLiveReview ? "" : t(`home.reviews.${review.key}.sub`)}
+                        {isLiveReview
+                          ? ""
+                          : t(`home.reviews.${review.key}.sub`)}
                       </div>
                     </div>
                   </div>
