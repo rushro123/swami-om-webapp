@@ -33,8 +33,13 @@ function toPageReview(r, index) {
 
 export async function getReviews() {
   try {
-    const { data } = await api.get("/api/review/getReviews");
-    return Array.isArray(data) ? data.map(toPageReview) : [];
+    const { data } = await api.get("/api/review/getReviewPageInfo");
+    const reviews = Array.isArray(data) ? data : data?.reviewsDTO;
+    return {
+      reviews: Array.isArray(reviews) ? reviews.map(toPageReview) : [],
+      averageRating: Array.isArray(data) ? null : data?.averageRating ?? null,
+      totalReviews: Array.isArray(data) ? null : data?.totalReviews ?? null,
+    };
   } catch (err) {
     throw new Error(explain(err));
   }

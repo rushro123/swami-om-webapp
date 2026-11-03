@@ -10,6 +10,10 @@ import { getReviews } from "./services/reviews";
 
 function App() {
   const [reviews, setReviews] = useState([]);
+  const [reviewSummary, setReviewSummary] = useState({
+    averageRating: null,
+    totalReviews: null,
+  });
   const [reviewsLoading, setReviewsLoading] = useState(true);
   const [reviewsError, setReviewsError] = useState("");
 
@@ -17,8 +21,14 @@ function App() {
     let active = true;
 
     getReviews()
-      .then((items) => {
-        if (active) setReviews(Array.isArray(items) ? items : []);
+      .then((result) => {
+        if (active) {
+          setReviews(Array.isArray(result?.reviews) ? result.reviews : []);
+          setReviewSummary({
+            averageRating: result?.averageRating ?? null,
+            totalReviews: result?.totalReviews ?? null,
+          });
+        }
       })
       .catch((error) => {
         console.error("Could not load reviews:", error);
@@ -49,6 +59,7 @@ function App() {
               <Reviews
                 reviews={reviews}
                 setReviews={setReviews}
+                reviewSummary={reviewSummary}
                 loading={reviewsLoading}
                 loadError={reviewsError}
               />

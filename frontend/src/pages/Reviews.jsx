@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState,useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ReviewCard, { ReviewStars } from "../components/ReviewCard";
 import StarRating from "../components/StarRating";
 import { Badge, Btn, Card } from "../components/ui";
 import { addReview } from "../services/reviews";
+import { startRender } from "../api/dummycall";
 
 const EMPTY_FORM = {
   firstName: "",
@@ -19,9 +20,13 @@ const INPUT_CLASS =
 export default function Reviews({
   reviews,
   setReviews,
+  reviewSummary,
   loading,
   loadError,
 }) {
+  useEffect(()=>{
+    startRender()
+  })
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
   const [form, setForm] = useState(EMPTY_FORM);
@@ -29,13 +34,24 @@ export default function Reviews({
   const [notice, setNotice] = useState("");
   const [error, setError] = useState(""); // form errors
 
-  const average = useMemo(() => {
+  const calculatedAverage = useMemo(() => {
     if (!reviews.length) return "—";
     return (
       reviews.reduce((sum, review) => sum + Number(review.rating || 0), 0) /
       reviews.length
     ).toFixed(1);
   }, [reviews]);
+  const hasCurrentSummary =
+    reviewSummary?.totalReviews == null ||
+    Number(reviewSummary.totalReviews) === reviews.length;
+  const average =
+    hasCurrentSummary && reviewSummary?.averageRating != null
+      ? Number(reviewSummary.averageRating).toFixed(1)
+      : calculatedAverage;
+  const totalReviews =
+    hasCurrentSummary && reviewSummary?.totalReviews != null
+      ? reviewSummary.totalReviews
+      : reviews.length;
 
   const updateField = (field) => (event) => {
     setForm((current) => ({ ...current, [field]: event.target.value }));
@@ -67,10 +83,13 @@ export default function Reviews({
         rating: Number(form.rating),
       };
       await addReview(review);
-      setReviews((current) => [
-        { ...review, id: Date.now(), date: new Date().toISOString() },
-        ...current,
-      ]);
+      setReviews((current) => {
+        const updatedReviews = [
+          { ...review, id: Date.now(), date: new Date().toISOString() },
+          ...current,
+        ];
+        return updatedReviews;
+      });
       setForm(EMPTY_FORM);
       setNotice(t("rev.ok"));
     } catch (err) {
@@ -114,7 +133,7 @@ export default function Reviews({
             </Card>
             <Card className="px-5 py-5">
               <div className="font-heading text-3xl font-bold text-primary">
-                {reviews.length}
+                {totalReviews}
               </div>
               <div className="mt-1 text-xs font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
                 {t("rev.total")}
