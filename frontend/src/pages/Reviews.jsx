@@ -41,15 +41,12 @@ export default function Reviews({
       reviews.length
     ).toFixed(1);
   }, [reviews]);
-  const hasCurrentSummary =
-    reviewSummary?.totalReviews == null ||
-    Number(reviewSummary.totalReviews) === reviews.length;
   const average =
-    hasCurrentSummary && reviewSummary?.averageRating != null
+      reviewSummary?.averageRating != null
       ? Number(reviewSummary.averageRating).toFixed(1)
       : calculatedAverage;
   const totalReviews =
-    hasCurrentSummary && reviewSummary?.totalReviews != null
+     reviewSummary?.totalReviews != null
       ? reviewSummary.totalReviews
       : reviews.length;
 

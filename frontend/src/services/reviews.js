@@ -39,6 +39,7 @@ export async function getReviews() {
       reviews: Array.isArray(reviews) ? reviews.map(toPageReview) : [],
       averageRating: Array.isArray(data) ? null : data?.averageRating ?? null,
       totalReviews: Array.isArray(data) ? null : data?.totalReviews ?? null,
+      
     };
   } catch (err) {
     throw new Error(explain(err));

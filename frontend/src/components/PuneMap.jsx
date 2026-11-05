@@ -111,13 +111,7 @@ function FitCoverageLocations({ locations }) {
   useEffect(() => {
     if (hasFit.current) return
 
-    map.fitBounds(
-      [
-        [18.25, 73.55],
-        [18.8, 74.15],
-      ],
-      { padding: [24, 24], maxZoom: 10 },
-    )
+    map.setView([18.52, 73.86], 11)
     hasFit.current = true
   }, [locations, map])
 
