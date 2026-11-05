@@ -72,8 +72,8 @@ const en = {
     hero: {
       badge: "🍲 Traditional Kitchen Warmth",
       title1: "Homemade Meals,",
-      title2: "Made with Care.",
-      desc: "Authentic Maharashtrian home cooking delivered to your doorstep. Fresh vegetarian and non-vegetarian meals made daily — आईच्या हातचं जेवण.",
+      title2: "Made with Love.",
+      desc: "Authentic Maharashtrian home cooking delivered at your doorstep. Fresh vegetarian and non-vegetarian meals made daily — आईच्या हातचं जेवण.",
       btnWhatsapp: "💬 WhatsApp Enquiry",
       btnAbout: "🙏 About Us",
       trust: {
