@@ -81,14 +81,14 @@ export default function CateringEnquiryForm({ open, onClose }) {
   // (cards, carousels) can shrink or reposition the modal.
   return createPortal(
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-on-surface/50"
+      className="fixed inset-0 z-[1200] overflow-y-auto bg-on-surface/50"
       role="presentation"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
     >
       <div
-        className="flex min-h-full items-center justify-center p-4"
+        className="flex min-h-full items-start justify-center p-4 sm:items-center"
         onMouseDown={(event) => {
           if (event.target === event.currentTarget) onClose();
         }}
