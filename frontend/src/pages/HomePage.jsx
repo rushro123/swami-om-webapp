@@ -7,7 +7,7 @@ import CateringEnquiryForm from "../components/CateringEnquiryForm";
 import { startRender } from "../api/dummycall";
 import catering_img from "../assets/catering_service_img.jpg";
 import head_img from "../assets/Rustic_Indian_Meal_by_the_Window.jpg";
-import SEO from "../components/Seo";
+import SEO from "../components/SEO";
 import img1 from "../assets/Rustic_Indian_tiffin.jpg";
 import img2 from "../assets/thursday_special_sweets.jpg";
 import img3 from "../assets/Rustic_Indian_Tiffin_sabji.jpg";

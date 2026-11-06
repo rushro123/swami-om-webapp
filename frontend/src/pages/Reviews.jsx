@@ -5,7 +5,7 @@ import StarRating from "../components/StarRating";
 import { Badge, Btn, Card } from "../components/ui";
 import { addReview } from "../services/reviews";
 import { startRender } from "../api/dummycall";
-import SEO from "../components/Seo";
+import SEO from "../components/SEO";
 const EMPTY_FORM = {
   firstName: "",
   lastName: "",
