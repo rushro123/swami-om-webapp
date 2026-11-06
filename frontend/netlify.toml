@@ -5,19 +5,6 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# 1. Send the free netlify.app address to your real domain
-[[redirects]]
-  from = "https://swamiomtiffinservice.netlify.app/*"
-  to = "https://swamiomtiffinservice.com/:splat"
-  status = 301
-  force = true
-
-# 2. Send www to the main domain
-[[redirects]]
-  from = "https://www.swamiomtiffinservice.com/*"
-  to = "https://swamiomtiffinservice.com/:splat"
-  status = 301
-  force = true
 
 # 3. React Router fallback so refreshing /about, /location, /reviews doesn't 404
 #    Keep this LAST: Netlify uses the first rule that matches
