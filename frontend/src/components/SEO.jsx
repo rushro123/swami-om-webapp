@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
-
+const SITE_URL = "https://swamiomtiffinservice.netlify.app";
 export default function SEO({ title, description, path = "/" }) {
-  const url = `https://swamiomtiffinservice.com${path}`;
+  const url = `${SITE_URL}${path === "/" ? "/" : path}`;
   return (
     <Helmet>
       <title>{title}</title>
