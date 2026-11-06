@@ -20,7 +20,7 @@ import {
   useLocationStore,
 } from "../store/locationStore";
 import { LOCALITIES } from "../data/localities";
-import SEO from "../components/Seo";
+import SEO from "../components/SEO";
 // ── Change these ──
 const WHATSAPP_NUMBER = "919763355563";
 const KITCHEN_NAME = "Swami Om";
