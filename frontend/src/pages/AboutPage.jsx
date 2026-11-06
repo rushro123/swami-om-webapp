@@ -11,7 +11,7 @@ import ownerImage from "../assets/owner.jpeg";
 import headcookImage from "../assets/headCook.jpeg";
 import coCook2 from "../assets/cook2.jpeg";
 import coCook3 from "../assets/cook3.jpeg";
-import SEO from "../components/Seo";
+import SEO from "../components/SEO";
 
 /* ─────────────── static data (text lives in i18n.js) ─────────────── */
 
