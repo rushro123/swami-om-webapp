@@ -7,7 +7,7 @@ import CateringEnquiryForm from "../components/CateringEnquiryForm";
 import { startRender } from "../api/dummycall";
 import catering_img from "../assets/catering_service_img.jpg";
 import head_img from "../assets/Rustic_Indian_Meal_by_the_Window.jpg";
-
+import SEO from "../components/Seo";
 import img1 from "../assets/Rustic_Indian_tiffin.jpg";
 import img2 from "../assets/thursday_special_sweets.jpg";
 import img3 from "../assets/Rustic_Indian_Tiffin_sabji.jpg";
@@ -112,6 +112,11 @@ export default function HomePage({ reviews = [] }) {
   return (
     // flex-1 keeps the footer at the bottom (your #root is a flex column)
     <main className="flex-1 bg-surface">
+      <SEO
+        title="Swami Om Tiffin Service | Home-Style Tiffin in Nagpur"
+        description="Fresh, home-style veg tiffin delivered daily in Nagpur. Monthly and weekly plans. Call or WhatsApp to order."
+        path="/"
+      />
       {/* ────────────── HERO ────────────── */}
       <section className="relative overflow-hidden bg-linear-to-br from-surface-container-highest via-surface-container-low to-white px-8 pb-14 pt-16">
         {/* Ambient orbs */}

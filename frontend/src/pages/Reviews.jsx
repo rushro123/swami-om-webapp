@@ -1,11 +1,11 @@
-import { useMemo, useState,useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ReviewCard, { ReviewStars } from "../components/ReviewCard";
 import StarRating from "../components/StarRating";
 import { Badge, Btn, Card } from "../components/ui";
 import { addReview } from "../services/reviews";
 import { startRender } from "../api/dummycall";
-
+import SEO from "../components/Seo";
 const EMPTY_FORM = {
   firstName: "",
   lastName: "",
@@ -24,9 +24,9 @@ export default function Reviews({
   loading,
   loadError,
 }) {
-  useEffect(()=>{
-    startRender()
-  })
+  useEffect(() => {
+    startRender();
+  });
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
   const [form, setForm] = useState(EMPTY_FORM);
@@ -42,11 +42,11 @@ export default function Reviews({
     ).toFixed(1);
   }, [reviews]);
   const average =
-      reviewSummary?.averageRating != null
+    reviewSummary?.averageRating != null
       ? Number(reviewSummary.averageRating).toFixed(1)
       : calculatedAverage;
   const totalReviews =
-     reviewSummary?.totalReviews != null
+    reviewSummary?.totalReviews != null
       ? reviewSummary.totalReviews
       : reviews.length;
 
@@ -98,6 +98,11 @@ export default function Reviews({
 
   return (
     <main className="min-h-full bg-surface">
+      <SEO
+        title="Customer Reviews | Swami Om Tiffin Service Nagpur"
+        description="Read what our customers say about our tiffin service in Nagpur, and share your own review."
+        path="/reviews"
+      />
       <section className="relative overflow-hidden bg-linear-to-br from-surface-container-highest via-surface-container-low to-white px-5 pb-14 pt-14 sm:px-8">
         <div className="pointer-events-none absolute -right-20 -top-24 size-[340px] rounded-full bg-primary-fixed-dim/25 blur-[60px]" />
         <div className="pointer-events-none absolute -bottom-28 left-10 size-[260px] rounded-full bg-secondary-container/15 blur-[55px]" />
@@ -259,7 +264,12 @@ export default function Reviews({
                 {notice}
               </p>
             )}
-            <Btn type="submit" size="block" className="w-full" disabled={saving}>
+            <Btn
+              type="submit"
+              size="block"
+              className="w-full"
+              disabled={saving}
+            >
               {saving ? t("rev.saving") : t("rev.submit")}
             </Btn>
           </form>

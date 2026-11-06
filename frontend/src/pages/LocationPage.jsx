@@ -20,12 +20,12 @@ import {
   useLocationStore,
 } from "../store/locationStore";
 import { LOCALITIES } from "../data/localities";
+import SEO from "../components/Seo";
 // ── Change these ──
 const WHATSAPP_NUMBER = "919763355563";
 const KITCHEN_NAME = "Swami Om";
 
 // ── Quick-pick localities (approximate centre points) ──
-
 
 const ZONE_INFO = {
   inner: {
@@ -46,7 +46,8 @@ const ZONE_INFO = {
     badge: "On Request — Custom Delivery",
     badgeClass: "bg-surface-variant text-on-surface-variant",
     note: "This location is outside our daily delivery zone. We can still serve you on request, so message us to confirm.",
-    delivery:     "Delivery for locations outside the 5 km coverage radius is quoted individually.",
+    delivery:
+      "Delivery for locations outside the 5 km coverage radius is quoted individually.",
   },
 };
 
@@ -137,8 +138,12 @@ export default function LocationPage() {
   const activeChip = LOCALITIES.find((l) => l.name === pin.label)?.name;
   const selectedLocationValue = `${pin.lat},${pin.lng}`;
   const isPredefinedLocation =
-    KITCHENS.some((kitchen) => kitchen.lat === pin.lat && kitchen.lng === pin.lng) ||
-    LOCALITIES.some((locality) => locality.lat === pin.lat && locality.lng === pin.lng);
+    KITCHENS.some(
+      (kitchen) => kitchen.lat === pin.lat && kitchen.lng === pin.lng,
+    ) ||
+    LOCALITIES.some(
+      (locality) => locality.lat === pin.lat && locality.lng === pin.lng,
+    );
 
   const selectLocation = (value) => {
     const [lat, lng] = value.split(",").map(Number);
@@ -159,8 +164,7 @@ export default function LocationPage() {
         encodeURIComponent(q + ", Pune");
       const data = await (await fetch(url)).json();
       if (data[0]) setPin(parseFloat(data[0].lat), parseFloat(data[0].lon));
-      else
-        setSearchError(t("location.errNotFound"));
+      else setSearchError(t("location.errNotFound"));
     } catch {
       setSearchError(t("location.errSearch"));
     } finally {
@@ -170,12 +174,10 @@ export default function LocationPage() {
 
   const useGps = () => {
     setGpsError("");
-    if (!navigator.geolocation)
-      return setGpsError(t("location.errGpsNA"));
+    if (!navigator.geolocation) return setGpsError(t("location.errGpsNA"));
     navigator.geolocation.getCurrentPosition(
       (p) => setPin(p.coords.latitude, p.coords.longitude),
-      () =>
-        setGpsError(t("location.errGps")),
+      () => setGpsError(t("location.errGps")),
       { enableHighAccuracy: true, timeout: 10000 },
     );
   };
@@ -198,6 +200,11 @@ export default function LocationPage() {
   return (
     // flex-1 pushes the footer to the bottom (your #root is a flex column)
     <main className="flex-1 bg-background text-on-surface">
+      <SEO
+        title="Delivery Areas & Location | Swami Om Tiffin Service Nagpur"
+        description="Find our kitchen and the Nagpur areas we deliver to. Check if we serve your locality."
+        path="/location"
+      />
       {/* ── 1. Page intro ── */}
       <section className="hero-glow pb-7 pt-12">
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-end justify-between gap-6 px-5">
@@ -304,7 +311,6 @@ export default function LocationPage() {
               </span>
             </div>
           </div>
-
         </div>
 
         {/* Estimator below the full-width map */}
@@ -343,8 +349,6 @@ export default function LocationPage() {
               </div>
             </div>
 
-            
-
             <hr className="my-5 border-0 border-t border-outline-variant/50" />
 
             {/* Estimator */}
@@ -367,9 +371,7 @@ export default function LocationPage() {
               className="mb-4 mt-2 w-full rounded-md bg-surface-container px-3.5 py-3 text-sm text-on-surface outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
             >
               {!isPredefinedLocation && (
-                <option value={selectedLocationValue}>
-                  {pin.label}
-                </option>
+                <option value={selectedLocationValue}>{pin.label}</option>
               )}
               {KITCHENS.map((kitchen) => (
                 <option
@@ -457,7 +459,8 @@ export default function LocationPage() {
               rel="noreferrer"
               className={`${softBtn} w-full`}
             >
-              <MessageSquare size={16} aria-hidden /> {t("location.customQuote")}
+              <MessageSquare size={16} aria-hidden />{" "}
+              {t("location.customQuote")}
             </a>
           </div>
 

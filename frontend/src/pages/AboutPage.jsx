@@ -8,10 +8,10 @@ import {
   waLink,
 } from "../components/ui";
 import ownerImage from "../assets/owner.jpeg";
-import headcookImage from "../assets/headCook.jpeg"
-import coCook2 from "../assets/cook2.jpeg"
-import coCook3 from "../assets/cook3.jpeg"
-
+import headcookImage from "../assets/headCook.jpeg";
+import coCook2 from "../assets/cook2.jpeg";
+import coCook3 from "../assets/cook3.jpeg";
+import SEO from "../components/Seo";
 
 /* ─────────────── static data (text lives in i18n.js) ─────────────── */
 
@@ -67,6 +67,11 @@ export default function AboutPage() {
 
   return (
     <main className="flex-1 bg-surface pb-16">
+      <SEO
+        title="About Us | Swami Om Tiffin Service Nagpur"
+        description="Learn about Swami Om Tiffin Service: home-cooked meals made fresh every day for homes, students, and offices in Nagpur."
+        path="/about"
+      />
       {/* ── HERO BANNER ── */}
       <section className="relative overflow-hidden border-b border-outline-variant bg-linear-to-br from-surface-container-highest to-surface-container-low px-6 py-[clamp(3rem,8vw,5rem)]">
         <div className="pointer-events-none absolute -right-16 -top-16 size-[280px] rounded-full bg-primary-fixed-dim/30 blur-[50px]" />
@@ -169,7 +174,6 @@ export default function AboutPage() {
       </section>
 
       {/* ── JOURNEY TIMELINE ── */}
-      
 
       {/* ── TEAM ── */}
       <section className={SECTION}>
